@@ -1,0 +1,31 @@
+packages:
+  github.com/besanh/go-library/metric:
+    interfaces:
+      IMetric:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "metric"
+          # name of the mock struct
+          structname: "MockIMetric"
+          # filename for the generated mock
+          filename: "mock_imetric.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
+      IMetricWriter:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "metric"
+          # name of the mock struct
+          structname: "MockIMetricWriter"
+          # filename for the generated mock
+          filename: "mock_imetric_writer.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
