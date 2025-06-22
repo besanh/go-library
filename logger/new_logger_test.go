@@ -13,6 +13,41 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestInitAndDefault(t *testing.T) {
+	// Use a buffer to capture JSON output
+	buf := &bytes.Buffer{}
+	Init(
+		WithJSONWriter(buf),
+		WithLevel(zerolog.DebugLevel),
+	)
+
+	def1 := Default()
+	def2 := Default()
+	// Default() should return the same Logger instance
+	assert.Same(t, def1, def2)
+}
+
+func TestNewAddsComponentField(t *testing.T) {
+	// Ensure init with buffer
+	buf := &bytes.Buffer{}
+	Init(
+		WithJSONWriter(buf),
+		WithLevel(zerolog.DebugLevel),
+	)
+
+	componentName := "mycomponent"
+	log := New(componentName)
+	log.Info("test_message")
+
+	// Parse output JSON and verify component field
+	out := buf.String()
+	var msg map[string]interface{}
+	err := json.Unmarshal([]byte(out), &msg)
+	assert.NoError(t, err)
+	assert.Equal(t, componentName, msg["component"])
+	assert.Equal(t, "test_message", msg["message"])
+}
+
 func TestWithLevel(t *testing.T) {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	buf := &bytes.Buffer{}

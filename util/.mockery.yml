@@ -1,0 +1,17 @@
+packages:
+  github.com/besanh/go-library/util:
+    interfaces:
+      IUtil:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "util"
+          # name of the mock struct
+          structname: "MockIUtil"
+          # filename for the generated mock
+          filename: "mock_iutil.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
