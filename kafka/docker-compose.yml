@@ -1,0 +1,19 @@
+name: redpanda_kafka
+
+services:
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:latest
+    container_name: redpanda
+    platform: linux/arm64
+    ports:
+      - "9092:9092"     # Kafka API
+      - "9644:9644"     # Admin UI
+    command:
+      - redpanda
+      - start
+      - --smp=1
+      - --overprovisioned
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr=PLAINTEXT://localhost:9092

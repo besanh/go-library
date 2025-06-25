@@ -1,0 +1,45 @@
+packages:
+  github.com/besanh/go-library/kafka:
+    interfaces:
+      IMessageHandler:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "kafka"
+          # name of the mock struct
+          structname: "MockIMessageHandler"
+          # filename for the generated mock
+          filename: "mock_imessage_handler.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
+      IConsumerGroup:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "kafka"
+          # name of the mock struct
+          structname: "MockIConsumerGroup"
+          # filename for the generated mock
+          filename: "mock_iconsumer_group.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
+      IProducer:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "kafka"
+          # name of the mock struct
+          structname: "MockIProducer"
+          # filename for the generated mock
+          filename: "mock_iproducer.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
