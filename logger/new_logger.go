@@ -16,15 +16,6 @@ type Field struct {
 	Value any
 }
 
-type ILogger interface {
-	Debug(msg string, fields ...Field)
-	Info(msg string, fields ...Field)
-	Warn(msg string, fields ...Field)
-	Error(msg string, fields ...Field)
-	Fatal(msg string, fields ...Field)
-	With(fields ...Field) ILogger
-}
-
 type Option func(*zerolog.Logger)
 
 var (
