@@ -2,30 +2,34 @@ package oauth2
 
 import (
 	"context"
+	"net/http"
 
 	"golang.org/x/oauth2"
 )
 
 type IOAuth2 interface {
-	GetClient() *oauth2.Config
-	AuthCodeUrl(state, verifier string) string
-	Exchange(ctx context.Context, code string, opts ...oauth2.AuthCodeOption) (*oauth2.Token, error)
+	AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string
+	Exchange(ctx context.Context, code string) (*oauth2.Token, error)
+	Token() (*oauth2.Token, error)
+	HTTPClient(ctx context.Context) *http.Client
 }
 
-func (o *OAuth2) GetClient() *oauth2.Config {
-	return &oauth2.Config{
-		ClientID:     o.Config.ClientId,
-		ClientSecret: o.Config.ClientSecret,
-		Scopes:       o.Config.Scopes,
-		Endpoint:     o.Config.Endpoint,
-		RedirectURL:  o.Config.Redirect,
-	}
+// AuthCodeURL returns the URL to redirect users for OAuth2 authorization.
+func (c *Client) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
+	return c.config.AuthCodeURL(state, opts...)
 }
 
-func (o *OAuth2) AuthCodeUrl(state, verifier string) string {
-	return o.GetClient().AuthCodeURL(state, oauth2.AccessTypeOffline, oauth2.S256ChallengeOption(verifier))
+// Exchange exchanges an authorization code for a token.
+func (c *Client) Exchange(ctx context.Context, code string) (*oauth2.Token, error) {
+	return c.config.Exchange(ctx, code)
 }
 
-func (o *OAuth2) Exchange(ctx context.Context, code string, opts ...oauth2.AuthCodeOption) (*oauth2.Token, error) {
-	return o.GetClient().Exchange(ctx, code, opts...)
+// Token retrieves a valid token, refreshing if necessary.
+func (c *Client) Token() (*oauth2.Token, error) {
+	return c.tokenSource.Token()
+}
+
+// HTTPClient returns an *http.Client which automatically injects OAuth2 tokens in requests.
+func (c *Client) HTTPClient(ctx context.Context) *http.Client {
+	return oauth2.NewClient(ctx, c.tokenSource)
 }
