@@ -1,0 +1,17 @@
+packages:
+  github.com/besanh/go-library/mongodb:
+    interfaces:
+      IMongoDB:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "mongodb"
+          # name of the mock struct
+          structname: "MockIMongodb"
+          # filename for the generated mock
+          filename: "mock_imongodb.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
