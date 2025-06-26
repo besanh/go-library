@@ -15,6 +15,7 @@ type Config struct {
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	PoolSize     int
+	PoolTimeout  time.Duration
 	MinIdleConns int
 }
 
@@ -37,6 +38,9 @@ func NewRedis(cfg Config) (*Client, error) {
 	if cfg.PoolSize == 0 {
 		cfg.PoolSize = 10
 	}
+	if cfg.PoolTimeout == 0 {
+		cfg.PoolTimeout = 30 * time.Second
+	}
 	if cfg.MinIdleConns == 0 {
 		cfg.MinIdleConns = 2
 	}
@@ -49,6 +53,7 @@ func NewRedis(cfg Config) (*Client, error) {
 		ReadTimeout:  cfg.ReadTimeout,
 		WriteTimeout: cfg.WriteTimeout,
 		PoolSize:     cfg.PoolSize,
+		PoolTimeout:  cfg.PoolTimeout,
 		MinIdleConns: cfg.MinIdleConns,
 	})
 
