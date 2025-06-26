@@ -1,0 +1,17 @@
+packages:
+  github.com/besanh/go-library/nats_jetstream:
+    interfaces:
+      INatsJetstream:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "natsjetstream"
+          # name of the mock struct
+          structname: "MockINatsJetstream"
+          # filename for the generated mock
+          filename: "mock_inats_jetstream.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
