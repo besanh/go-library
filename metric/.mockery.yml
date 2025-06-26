@@ -15,16 +15,16 @@ packages:
           formatter: "goimports"
           # overwrite existing files if they already exist
           force-file-write: true
-      IMetricWriter:
+      IStatusWriter:
         config:
           # directory to output the mock file
           dir: ""
           # package name for the generated mock
           pkgname: "metric"
           # name of the mock struct
-          structname: "MockIMetricWriter"
+          structname: "MockIStatusWriter"
           # filename for the generated mock
-          filename: "mock_imetric_writer.go"
+          filename: "mock_istatus_writer.go"
           # format the output using goimports
           formatter: "goimports"
           # overwrite existing files if they already exist

@@ -1,4 +1,3 @@
-// logger/ilogger.go
 package logger
 
 import (

@@ -1,4 +1,3 @@
-// oauth2/client.go
 package oauth2
 
 import (

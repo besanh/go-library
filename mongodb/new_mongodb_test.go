@@ -1,4 +1,3 @@
-// mongodb/client_test.go
 package mongodb
 
 import (
