@@ -4,6 +4,7 @@ go 1.24.4
 
 require (
 	github.com/IBM/sarama v1.45.2
+	github.com/alicebob/miniredis/v2 v2.35.0
 	github.com/getsentry/sentry-go v0.34.0
 	github.com/gin-gonic/gin v1.10.1
 	github.com/pkg/errors v0.9.1
@@ -16,8 +17,6 @@ require (
 )
 
 require (
-	github.com/alicebob/gopher-json v0.0.0-20230218143504-906a9b012302 // indirect
-	github.com/alicebob/miniredis/v2 v2.35.0 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
