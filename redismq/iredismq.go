@@ -71,7 +71,7 @@ func (srv *RMQServer) Run() {
 func (srv *RMQServer) waitForSignals() {
 	log.Println("Waiting for signals...")
 	signals := make(chan os.Signal, 1)
-	signal.Notify(signals, syscall.SIGINT, syscall.SIGKILL, syscall.SIGQUIT)
+	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	defer signal.Stop(signals)
 
 	<-signals // wait for signal

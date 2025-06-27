@@ -10,7 +10,7 @@ packages:
           # name of the mock struct
           structname: "MockIRedisMQ"
           # filename for the generated mock
-          filename: "mock_iredis_mq.go"
+          filename: "mock_iredismq.go"
           # format the output using goimports
           formatter: "goimports"
           # overwrite existing files if they already exist

@@ -10,11 +10,15 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-type Rcfg struct {
-	Address  string
-	Username string
-	Password string
-	DB       int
+type Config struct {
+	Address         string
+	Username        string
+	Password        string
+	DB              int
+	PoolTimeout     time.Duration
+	ReadTimeout     time.Duration
+	WriteTimeout    time.Duration
+	ConnMaxIdleTime time.Duration
 }
 
 var RMQ *RMQConnection
@@ -27,7 +31,7 @@ const (
 
 type RMQConnection struct {
 	RedisClient *redis.Client
-	Config      Rcfg
+	Config      Config
 	Conn        rmq.Connection
 	Queues      map[string]rmq.Queue
 	Server      *RMQServer
@@ -46,7 +50,7 @@ type RMQClient struct {
 	Queues map[string]rmq.Queue
 }
 
-func NewRMQ(config Rcfg) *RMQConnection {
+func NewRMQ(config Config) *RMQConnection {
 	poolSize := runtime.NumCPU() * 4
 	errChan := make(chan error, 10)
 	go logErrors(errChan)
@@ -55,10 +59,10 @@ func NewRMQ(config Rcfg) *RMQConnection {
 		Password:        config.Password,
 		DB:              config.DB,
 		PoolSize:        poolSize,
-		PoolTimeout:     time.Duration(20) * time.Second,
-		ReadTimeout:     time.Duration(20) * time.Second,
-		WriteTimeout:    time.Duration(20) * time.Second,
-		ConnMaxIdleTime: time.Duration(20) * time.Second,
+		PoolTimeout:     config.PoolTimeout,
+		ReadTimeout:     config.ReadTimeout,
+		WriteTimeout:    config.WriteTimeout,
+		ConnMaxIdleTime: config.ConnMaxIdleTime,
 	})
 	connection, err := rmq.OpenConnectionWithRedisClient(tag, client, errChan)
 	if err != nil {
