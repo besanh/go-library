@@ -8,12 +8,12 @@ import (
 
 // Config holds OAuth2 parameters for creating a client.
 type Config struct {
-	ClientID     string   // OAuth2 client ID
-	ClientSecret string   // OAuth2 client secret
-	AuthURL      string   // Authorization endpoint
-	TokenURL     string   // Token endpoint
-	RedirectURL  string   // Redirect URL for auth code flow
-	Scopes       []string // OAuth2 scopes
+	ClientID     string
+	ClientSecret string
+	AuthURL      string
+	TokenURL     string
+	RedirectURL  string
+	Scopes       []string
 }
 
 // Client wraps an oauth2.Config and TokenSource to provide HTTP clients and token management.

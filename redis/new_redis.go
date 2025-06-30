@@ -59,6 +59,10 @@ func NewRedis(cfg Config) (*Client, error) {
 
 	ctx := context.Background()
 
+	if err := rdb.Ping(ctx).Err(); err != nil {
+		return nil, err
+	}
+
 	return &Client{
 		rdb: rdb,
 		ctx: ctx,
