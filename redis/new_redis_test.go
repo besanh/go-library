@@ -13,7 +13,7 @@ func TestNewRedis_Defaults(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, client)
 
-	op := client.rdb.Options()
+	op := client.Rdb.Options()
 	require.Equal(t, "localhost:6379", op.Addr)
 	require.Equal(t, "", op.Password)
 	require.Equal(t, 0, op.DB)
@@ -22,7 +22,7 @@ func TestNewRedis_Defaults(t *testing.T) {
 	require.Equal(t, 3*time.Second, op.WriteTimeout)
 	require.Equal(t, 10, op.PoolSize)
 	require.Equal(t, 2, op.MinIdleConns)
-	require.NotNil(t, client.ctx)
+	require.NotNil(t, client.Ctx)
 }
 
 func TestNewRedis_CustomConfigs(t *testing.T) {
@@ -39,7 +39,7 @@ func TestNewRedis_CustomConfigs(t *testing.T) {
 	client, err := NewRedis(custom)
 	require.NoError(t, err)
 
-	op := client.rdb.Options()
+	op := client.Rdb.Options()
 	require.Equal(t, "127.0.0.1:6380", op.Addr)
 	require.Equal(t, "secret", op.Password)
 	require.Equal(t, 2, op.DB)

@@ -20,8 +20,8 @@ type Config struct {
 }
 
 type Client struct {
-	rdb *redis.Client
-	ctx context.Context
+	Rdb *redis.Client
+	Ctx context.Context
 }
 
 func NewRedis(cfg Config) (*Client, error) {
@@ -64,7 +64,7 @@ func NewRedis(cfg Config) (*Client, error) {
 	}
 
 	return &Client{
-		rdb: rdb,
-		ctx: ctx,
+		Rdb: rdb,
+		Ctx: ctx,
 	}, nil
 }
