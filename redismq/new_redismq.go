@@ -15,6 +15,8 @@ type Config struct {
 	Username        string
 	Password        string
 	DB              int
+	PoolSize        int
+	DialTimeout     time.Duration
 	PoolTimeout     time.Duration
 	ReadTimeout     time.Duration
 	WriteTimeout    time.Duration
@@ -56,9 +58,11 @@ func NewRMQ(config Config) *RMQConnection {
 	go logErrors(errChan)
 	client := redis.NewClient(&redis.Options{
 		Addr:            config.Address,
+		Username:        config.Username,
 		Password:        config.Password,
 		DB:              config.DB,
 		PoolSize:        poolSize,
+		DialTimeout:     config.PoolTimeout,
 		PoolTimeout:     config.PoolTimeout,
 		ReadTimeout:     config.ReadTimeout,
 		WriteTimeout:    config.WriteTimeout,

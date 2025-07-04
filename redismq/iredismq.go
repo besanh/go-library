@@ -50,7 +50,7 @@ type Consumer struct {
 }
 
 func (c *Consumer) Consume(delivery rmq.Delivery) {
-	log.Println("Received message: ", delivery.Payload())
+	log.Println("received message: ", delivery.Payload())
 	delivery.Ack()
 }
 
@@ -61,7 +61,7 @@ func (conn *RMQConnection) Close() {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println("Cleaned", i, "messages")
+	log.Println("cleaned", i, "messages")
 }
 
 func (srv *RMQServer) Run() {
