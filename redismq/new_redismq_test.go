@@ -21,10 +21,12 @@ func TestNewRMQ_SetsUpConnection(t *testing.T) {
 		Username:        "",
 		Password:        "",
 		DB:              0,
-		PoolTimeout:     123 * time.Millisecond,
-		ReadTimeout:     456 * time.Millisecond,
-		WriteTimeout:    789 * time.Millisecond,
-		ConnMaxIdleTime: 1 * time.Second,
+		PoolSize:        32,
+		DialTimeout:     60 * time.Millisecond,
+		PoolTimeout:     60 * time.Millisecond,
+		ReadTimeout:     60 * time.Millisecond,
+		WriteTimeout:    60 * time.Millisecond,
+		ConnMaxIdleTime: 60 * time.Millisecond,
 	}
 
 	rmqConn := NewRMQ(cfg)
@@ -41,8 +43,11 @@ func TestNewRMQ_SetsUpConnection(t *testing.T) {
 	// Verify Redis client options
 	rOpts := rmqConn.RedisClient.Options()
 	require.Equal(t, s.Addr(), rOpts.Addr)
+	require.Equal(t, cfg.Username, rOpts.Username)
 	require.Equal(t, cfg.Password, rOpts.Password)
 	require.Equal(t, cfg.DB, rOpts.DB)
+	require.Equal(t, cfg.PoolSize, rOpts.PoolSize)
+	require.Equal(t, cfg.DialTimeout, rOpts.DialTimeout)
 	require.Equal(t, cfg.PoolTimeout, rOpts.PoolTimeout)
 	require.Equal(t, cfg.ReadTimeout, rOpts.ReadTimeout)
 	require.Equal(t, cfg.WriteTimeout, rOpts.WriteTimeout)

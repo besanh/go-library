@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	Addr         string
+	Username     string
 	Password     string
 	DB           int
 	DialTimeout  time.Duration
@@ -16,7 +17,6 @@ type Config struct {
 	WriteTimeout time.Duration
 	PoolSize     int
 	PoolTimeout  time.Duration
-	MinIdleConns int
 }
 
 type Client struct {
@@ -25,28 +25,9 @@ type Client struct {
 }
 
 func NewRedis(cfg Config) (*Client, error) {
-	// Apply defaults
-	if cfg.DialTimeout == 0 {
-		cfg.DialTimeout = 5 * time.Second
-	}
-	if cfg.ReadTimeout == 0 {
-		cfg.ReadTimeout = 3 * time.Second
-	}
-	if cfg.WriteTimeout == 0 {
-		cfg.WriteTimeout = 3 * time.Second
-	}
-	if cfg.PoolSize == 0 {
-		cfg.PoolSize = 10
-	}
-	if cfg.PoolTimeout == 0 {
-		cfg.PoolTimeout = 30 * time.Second
-	}
-	if cfg.MinIdleConns == 0 {
-		cfg.MinIdleConns = 2
-	}
-
 	rdb := redis.NewClient(&redis.Options{
 		Addr:         cfg.Addr,
+		Username:     cfg.Username,
 		Password:     cfg.Password,
 		DB:           cfg.DB,
 		DialTimeout:  cfg.DialTimeout,
@@ -54,7 +35,6 @@ func NewRedis(cfg Config) (*Client, error) {
 		WriteTimeout: cfg.WriteTimeout,
 		PoolSize:     cfg.PoolSize,
 		PoolTimeout:  cfg.PoolTimeout,
-		MinIdleConns: cfg.MinIdleConns,
 	})
 
 	ctx := context.Background()
