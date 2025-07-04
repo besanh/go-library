@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"regexp"
+	"runtime/debug"
 	"sync"
 
 	"github.com/besanh/go-library/logger/httpclient"
@@ -59,21 +60,24 @@ var (
 func Init(opts ...Option) {
 	once.Do(func() {
 		// Wrap stdout with JSON colorizer
-		w := &colorJSONWriter{w: os.Stdout}
+		buildInfo, _ := debug.ReadBuildInfo()
 
 		// Base logger uses JSON writer
-		z := zerolog.New(w).
+		base := zerolog.New(&colorJSONWriter{w: os.Stdout}).
 			With().
 			Timestamp().
+			Caller().
+			Int("pid", os.Getpid()).
+			Str("go_version", buildInfo.GoVersion).
 			Logger()
 
 		// Apply additional options (hooks, level)
 		for _, opt := range opts {
-			opt(&z)
+			opt(&base)
 		}
 
-		defaultLogger = &loggerImpl{z}
-		log.Logger = z
+		defaultLogger = &loggerImpl{base}
+		log.Logger = base
 	})
 }
 

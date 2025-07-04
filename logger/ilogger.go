@@ -2,6 +2,7 @@ package logger
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/rs/zerolog"
 )
@@ -93,4 +94,5 @@ func (l *loggerImpl) Error(msg string, args ...any) {
 
 func (l *loggerImpl) Fatal(msg string, args ...any) {
 	l.log(zerolog.FatalLevel, msg, args...)
+	os.Exit(1)
 }

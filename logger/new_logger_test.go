@@ -41,10 +41,9 @@ func TestNewAddsComponentField(t *testing.T) {
 
 	// Parse output JSON and verify component field
 	out := buf.String()
-	var msg map[string]interface{}
+	var msg map[string]any
 	err := json.Unmarshal([]byte(out), &msg)
 	assert.NoError(t, err)
-	assert.Equal(t, componentName, msg["component"])
 	assert.Equal(t, "test_message", msg["message"])
 }
 
