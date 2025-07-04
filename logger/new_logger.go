@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"regexp"
-	"runtime/debug"
 	"sync"
 
 	"github.com/besanh/go-library/logger/httpclient"
@@ -60,15 +59,16 @@ var (
 func Init(opts ...Option) {
 	once.Do(func() {
 		// Wrap stdout with JSON colorizer
-		buildInfo, _ := debug.ReadBuildInfo()
+		zerolog.CallerMarshalFunc = func(pc uintptr, file string, line int) string {
+			return fmt.Sprintf("%s:%d", file, line)
+		}
 
+		zerolog.CallerSkipFrameCount = 4
 		// Base logger uses JSON writer
 		base := zerolog.New(&colorJSONWriter{w: os.Stdout}).
 			With().
 			Timestamp().
 			Caller().
-			Int("pid", os.Getpid()).
-			Str("go_version", buildInfo.GoVersion).
 			Logger()
 
 		// Apply additional options (hooks, level)
