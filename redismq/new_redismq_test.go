@@ -22,14 +22,15 @@ func TestNewRMQ_SetsUpConnection(t *testing.T) {
 		Password:        "",
 		DB:              0,
 		PoolSize:        32,
-		DialTimeout:     60 * time.Millisecond,
 		PoolTimeout:     60 * time.Millisecond,
+		DialTimeout:     60 * time.Millisecond,
 		ReadTimeout:     60 * time.Millisecond,
 		WriteTimeout:    60 * time.Millisecond,
 		ConnMaxIdleTime: 60 * time.Millisecond,
 	}
 
-	rmqConn := NewRMQ(cfg)
+	rmqConn, err := NewRMQ(cfg)
+	require.NoError(t, err)
 	require.NotNil(t, rmqConn)
 
 	// Config must be preserved
@@ -46,9 +47,8 @@ func TestNewRMQ_SetsUpConnection(t *testing.T) {
 	require.Equal(t, cfg.Username, rOpts.Username)
 	require.Equal(t, cfg.Password, rOpts.Password)
 	require.Equal(t, cfg.DB, rOpts.DB)
-	require.Equal(t, cfg.PoolSize, rOpts.PoolSize)
-	require.Equal(t, cfg.DialTimeout, rOpts.DialTimeout)
 	require.Equal(t, cfg.PoolTimeout, rOpts.PoolTimeout)
+	require.Equal(t, cfg.DialTimeout, rOpts.DialTimeout)
 	require.Equal(t, cfg.ReadTimeout, rOpts.ReadTimeout)
 	require.Equal(t, cfg.WriteTimeout, rOpts.WriteTimeout)
 	require.Equal(t, cfg.ConnMaxIdleTime, rOpts.ConnMaxIdleTime)

@@ -16,8 +16,8 @@ type Config struct {
 	Password        string
 	DB              int
 	PoolSize        int
-	DialTimeout     time.Duration
 	PoolTimeout     time.Duration
+	DialTimeout     time.Duration
 	ReadTimeout     time.Duration
 	WriteTimeout    time.Duration
 	ConnMaxIdleTime time.Duration
@@ -52,7 +52,7 @@ type RMQClient struct {
 	Queues map[string]rmq.Queue
 }
 
-func NewRMQ(config Config) *RMQConnection {
+func NewRMQ(config Config) (*RMQConnection, error) {
 	poolSize := runtime.NumCPU() * 4
 	errChan := make(chan error, 10)
 	go logErrors(errChan)
@@ -62,8 +62,8 @@ func NewRMQ(config Config) *RMQConnection {
 		Password:        config.Password,
 		DB:              config.DB,
 		PoolSize:        poolSize,
-		DialTimeout:     config.PoolTimeout,
 		PoolTimeout:     config.PoolTimeout,
+		DialTimeout:     config.PoolTimeout,
 		ReadTimeout:     config.ReadTimeout,
 		WriteTimeout:    config.WriteTimeout,
 		ConnMaxIdleTime: config.ConnMaxIdleTime,
@@ -72,6 +72,7 @@ func NewRMQ(config Config) *RMQConnection {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return &RMQConnection{
 		RedisClient: client,
 		Config:      config,
@@ -84,7 +85,7 @@ func NewRMQ(config Config) *RMQConnection {
 			Queues: make(map[string]rmq.Queue),
 			conn:   connection,
 		},
-	}
+	}, nil
 }
 func logErrors(errChan <-chan error) {
 	for err := range errChan {

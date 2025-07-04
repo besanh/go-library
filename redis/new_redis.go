@@ -8,15 +8,16 @@ import (
 )
 
 type Config struct {
-	Addr         string
-	Username     string
-	Password     string
-	DB           int
-	DialTimeout  time.Duration
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
-	PoolSize     int
-	PoolTimeout  time.Duration
+	Address         string
+	Username        string
+	Password        string
+	DB              int
+	PoolSize        int
+	PoolTimeout     time.Duration
+	DialTimeout     time.Duration
+	ReadTimeout     time.Duration
+	WriteTimeout    time.Duration
+	ConnMaxIdleTime time.Duration
 }
 
 type Client struct {
@@ -26,15 +27,16 @@ type Client struct {
 
 func NewRedis(cfg Config) (*Client, error) {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:         cfg.Addr,
-		Username:     cfg.Username,
-		Password:     cfg.Password,
-		DB:           cfg.DB,
-		DialTimeout:  cfg.DialTimeout,
-		ReadTimeout:  cfg.ReadTimeout,
-		WriteTimeout: cfg.WriteTimeout,
-		PoolSize:     cfg.PoolSize,
-		PoolTimeout:  cfg.PoolTimeout,
+		Addr:            cfg.Address,
+		Username:        cfg.Username,
+		Password:        cfg.Password,
+		DB:              cfg.DB,
+		PoolSize:        cfg.PoolSize,
+		PoolTimeout:     cfg.PoolTimeout,
+		DialTimeout:     cfg.DialTimeout,
+		ReadTimeout:     cfg.ReadTimeout,
+		WriteTimeout:    cfg.WriteTimeout,
+		ConnMaxIdleTime: cfg.ConnMaxIdleTime,
 	})
 
 	ctx := context.Background()
