@@ -1,6 +1,7 @@
 package sentryhook
 
 import (
+	"encoding/base64"
 	"time"
 
 	"github.com/getsentry/sentry-go"
@@ -37,15 +38,46 @@ func logToSentry(entry zapcore.Entry, fields []zapcore.Field) {
 	event := &sentry.Event{
 		Message: entry.Message,
 		Level:   ConvertLevel(entry.Level),
-		Extra:   make(map[string]any),
+		Extra: map[string]any{
+			"caller":    entry.Caller.String(),
+			"timestamp": entry.Time.Format(time.RFC3339),
+		},
 	}
 
-	event.Extra["caller"] = entry.Caller.String()
-	event.Extra["timestamp"] = entry.Time.Format(time.RFC3339)
-
 	for _, f := range fields {
-		if f.Key != "" {
+		if f.Key == "" {
+			continue
+		}
+		switch f.Type {
+		case zapcore.SkipType, zapcore.NamespaceType:
+			continue
+		case zapcore.StringType:
+			event.Extra[f.Key] = f.String
+		case zapcore.ErrorType:
 			event.Extra[f.Key] = f.Interface
+		case zapcore.Int64Type, zapcore.Int32Type, zapcore.Int16Type, zapcore.Int8Type,
+			zapcore.Uint64Type, zapcore.Uint32Type, zapcore.Uint16Type, zapcore.Uint8Type:
+			event.Extra[f.Key] = f.Integer
+		case zapcore.BoolType:
+			event.Extra[f.Key] = f.Integer == 1
+		case zapcore.Float64Type, zapcore.Float32Type:
+			if f.Interface != nil {
+				event.Extra[f.Key] = f.Interface
+			}
+		case zapcore.BinaryType:
+			event.Extra[f.Key] = base64.StdEncoding.EncodeToString(f.Interface.([]byte))
+		case zapcore.TimeType:
+			if t, ok := f.Interface.(time.Time); ok {
+				event.Extra[f.Key] = t.Format(time.RFC3339)
+			}
+		case zapcore.DurationType:
+			if d, ok := f.Interface.(time.Duration); ok {
+				event.Extra[f.Key] = d.String()
+			}
+		default:
+			if f.Interface != nil {
+				event.Extra[f.Key] = f.Interface
+			}
 		}
 	}
 
