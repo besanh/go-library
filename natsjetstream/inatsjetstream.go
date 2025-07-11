@@ -3,7 +3,6 @@ package natsjetstream
 import (
 	"time"
 
-	"github.com/besanh/go-library/logger"
 	"github.com/nats-io/nats.go"
 )
 
@@ -26,10 +25,8 @@ func (n *NatsJetStream) Connect() error {
 
 func (n *NatsJetStream) Ping() {
 	if err := nats.PingInterval(5 * time.Second); err != nil {
-		n.lg.Error("ping nats error", logger.Field{
-			Key:   "error",
-			Value: err,
-		})
+		n.lg.Error("ping nats error", "error", err)
+		return
 	}
 	n.lg.Info("ping nats success")
 }

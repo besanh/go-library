@@ -1,142 +1,92 @@
 package logger
 
 import (
-	"fmt"
-	"io"
 	"os"
-	"regexp"
-	"sync"
 
 	"github.com/besanh/go-library/logger/httpclient"
 	"github.com/besanh/go-library/logger/sentryhook"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
+	"github.com/getsentry/sentry-go"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
-// Field represents a key/value pair to log.
-type Field struct {
-	Key   string
-	Value any
+type Config struct {
+	Level        zapcore.Level
+	EnableSentry bool
+	SentryDSN    string
+	HTTPHookURL  string
+	ServiceName  string
 }
 
-// Option configures the zerolog.Logger during initialization.
-type Option func(*zerolog.Logger)
+type Option func(*Config)
 
-// colorJSONWriter wraps an io.Writer and colorizes JSON keys and values.
-type colorJSONWriter struct {
-	w io.Writer
+func defaultConfig() Config {
+	return Config{
+		Level: zapcore.InfoLevel,
+	}
 }
 
-var (
-	// regex patterns to match JSON keys and values
-	keyPattern   = regexp.MustCompile(`"(\w+)":`)
-	valuePattern = regexp.MustCompile(`: "(.*?)"`)
-)
-
-// Write colorizes JSON log entries: keys in cyan, values in yellow.
-func (c *colorJSONWriter) Write(p []byte) (n int, err error) {
-	s := string(p)
-	// color keys
-	s = keyPattern.ReplaceAllStringFunc(s, func(m string) string {
-		sub := keyPattern.FindStringSubmatch(m)
-		return fmt.Sprintf("\x1b[36m\"%s\"\x1b[0m:", sub[1])
-	})
-	// color values
-	s = valuePattern.ReplaceAllStringFunc(s, func(m string) string {
-		sub := valuePattern.FindStringSubmatch(m)
-		return fmt.Sprintf(": \x1b[33m\"%s\"\x1b[0m", sub[1])
-	})
-	return c.w.Write([]byte(s))
+type impl struct {
+	core *zap.Logger
 }
 
-var (
-	defaultLogger ILogger
-	once          sync.Once
-)
+func NewLogger(opts ...Option) (ILogger, error) {
+	cfg := defaultConfig()
+	for _, opt := range opts {
+		opt(&cfg)
+	}
 
-// Init initializes the global default logger with colored JSON output.
-// Logs remain in JSON format but keys and values are colorized for readability.
-func Init(opts ...Option) {
-	once.Do(func() {
-		// Wrap stdout with JSON colorizer
-		zerolog.CallerMarshalFunc = func(pc uintptr, file string, line int) string {
-			return fmt.Sprintf("%s:%d", file, line)
+	encCfg := zapcore.EncoderConfig{
+		MessageKey:   "message",
+		LevelKey:     "level",
+		TimeKey:      "time",
+		NameKey:      "logger",
+		CallerKey:    "file",
+		FunctionKey:  "func",
+		LineEnding:   zapcore.DefaultLineEnding,
+		EncodeLevel:  zapcore.LowercaseLevelEncoder,
+		EncodeTime:   zapcore.ISO8601TimeEncoder,
+		EncodeCaller: zapcore.ShortCallerEncoder,
+	}
+	encoder := zapcore.NewJSONEncoder(encCfg)
+
+	// Output to stdout + optional HTTP hook
+	cores := []zapcore.Core{
+		zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), cfg.Level),
+	}
+	if cfg.HTTPHookURL != "" {
+		hook := &httpclient.HttpHookWriter{
+			URL: cfg.HTTPHookURL,
 		}
+		cores = append(cores, zapcore.NewCore(encoder, zapcore.AddSync(hook), cfg.Level))
+	}
+	tee := zapcore.NewTee(cores...)
 
-		zerolog.CallerSkipFrameCount = 4
-		// Base logger uses JSON writer
-		base := zerolog.New(&colorJSONWriter{w: os.Stdout}).
-			With().
-			Timestamp().
-			Caller().
-			Logger()
+	var core zapcore.Core = tee
 
-		// Apply additional options (hooks, level)
-		for _, opt := range opts {
-			opt(&base)
+	if cfg.EnableSentry {
+		if err := sentry.Init(sentry.ClientOptions{
+			Dsn: cfg.SentryDSN,
+		}); err != nil {
+			return nil, err
 		}
-
-		defaultLogger = &loggerImpl{base}
-		log.Logger = base
-	})
-}
-
-// Default returns the singleton ILogger, initializing it if necessary.
-func Default() ILogger {
-	if defaultLogger == nil {
-		Init()
+		core = &sentryhook.SentryCore{
+			Core:     tee,
+			MinLevel: zapcore.ErrorLevel,
+		}
 	}
-	return defaultLogger
-}
 
-// New creates a child logger with the "component" field set.
-func New(component string) ILogger {
-	return Default().With(Field{Key: "component", Value: component})
-}
+	base := zap.New(core,
+		zap.AddCaller(),
+		zap.AddCallerSkip(1),
+		zap.AddStacktrace(zapcore.ErrorLevel),
+	)
 
-// WithLevel returns an Option to set the global log level.
-func WithLevel(level zerolog.Level) Option {
-	return func(z *zerolog.Logger) {
-		zerolog.SetGlobalLevel(level)
-		*z = z.Level(level)
+	if cfg.ServiceName != "" {
+		base = base.Named(cfg.ServiceName)
 	}
-}
 
-// WithConsoleWriter returns an Option to switch to console output (colored) instead of JSON.
-func WithConsoleWriter(w io.Writer, timeFmt string) Option {
-	return func(z *zerolog.Logger) {
-		cw := zerolog.ConsoleWriter{Out: w, TimeFormat: timeFmt, NoColor: false}
-		*z = zerolog.New(cw).With().Timestamp().Logger()
-	}
-}
-
-// WithJSONWriter returns an Option to switch to uncolored JSON output.
-func WithJSONWriter(w io.Writer) Option {
-	return func(z *zerolog.Logger) {
-		*z = zerolog.New(w).With().Timestamp().Logger()
-	}
-}
-
-// WithTimeFormat sets the timestamp format.
-func WithTimeFormat(format string) Option {
-	return func(z *zerolog.Logger) {
-		zerolog.TimeFieldFormat = format
-		*z = z.With().Timestamp().Logger()
-	}
-}
-
-// WithSentryHook adds a Sentry hook for error reporting.
-func WithSentryHook(dsn string, opts ...sentryhook.SentryOption) Option {
-	return func(z *zerolog.Logger) {
-		hook := sentryhook.NewSentryHook(dsn, opts...)
-		*z = z.Hook(hook)
-	}
-}
-
-// WithHTTPHook adds an HTTP hook for log shipping.
-func WithHTTPHook(url string, client httpclient.IHTTPClient) Option {
-	return func(z *zerolog.Logger) {
-		hook := httpclient.NewHTTPHook(url, client)
-		*z = z.Hook(hook)
-	}
+	return &impl{
+		core: base,
+	}, nil
 }

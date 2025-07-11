@@ -2,97 +2,104 @@ package logger
 
 import (
 	"fmt"
-	"os"
+	"reflect"
 
-	"github.com/rs/zerolog"
+	"go.uber.org/zap"
 )
 
 type ILogger interface {
-	Debug(msg string, args ...any)
-	Info(msg string, args ...any)
-	Warn(msg string, args ...any)
-	Error(msg string, args ...any)
-	Fatal(msg string, args ...any)
-
-	With(args ...any) ILogger
+	Info(msg string, fields ...any)
+	Error(msg string, fields ...any)
+	Debug(msg string, fields ...any)
+	Warn(msg string, fields ...any)
+	Fatal(msg string, fields ...any)
 }
 
-type loggerImpl struct {
-	z zerolog.Logger
+func (l *impl) Info(msg string, args ...any) {
+	l.core.Info(msg, BuildFields(args...)...)
 }
 
-func NewLogger(z zerolog.Logger) ILogger {
-	return &loggerImpl{z: z}
+func (l *impl) Debug(msg string, args ...any) {
+	l.core.Debug(msg, BuildFields(args...)...)
 }
 
-func (l *loggerImpl) With(kv ...any) ILogger {
-	// Initialize child logger
-	e := l.z
-	// Iterate pairs
-	for i := 0; i+1 < len(kv); i += 2 {
-		key := fmt.Sprint(kv[i])
-		val := kv[i+1]
-		e = e.With().Interface(key, val).Logger()
+func (l *impl) Warn(msg string, args ...any) {
+	l.core.Warn(msg, BuildFields(args...)...)
+}
+
+func (l *impl) Error(msg string, args ...any) {
+	l.core.Error(msg, BuildFields(args...)...)
+}
+
+func (l *impl) Fatal(msg string, args ...any) {
+	l.core.Fatal(msg, BuildFields(args...)...)
+}
+
+func sanitize(v any) any {
+	if v == nil {
+		return nil
 	}
-	return &loggerImpl{z: e}
-}
 
-func (l *loggerImpl) log(level zerolog.Level, msg string, kv ...any) {
-	// Create event based on level
-	var e *zerolog.Event
-	switch level {
-	case zerolog.DebugLevel:
-		e = l.z.Debug()
-	case zerolog.InfoLevel:
-		e = l.z.Info()
-	case zerolog.WarnLevel:
-		e = l.z.Warn()
-	case zerolog.ErrorLevel:
-		e = l.z.Error()
-	case zerolog.FatalLevel:
-		e = l.z.Fatal()
+	if errVal, ok := v.(error); ok {
+		return errVal.Error()
+	}
+	rv := reflect.ValueOf(v)
+	switch rv.Kind() {
+	case reflect.Ptr, reflect.Interface:
+		if rv.IsNil() {
+			return nil
+		}
+		return sanitize(rv.Elem().Interface())
+
+	case reflect.Struct:
+		out := make(map[string]any)
+		rt := rv.Type()
+		for i := 0; i < rv.NumField(); i++ {
+			field := rt.Field(i)
+			if field.PkgPath != "" {
+				// Unexported
+				continue
+			}
+			out[field.Name] = sanitize(rv.Field(i).Interface())
+		}
+		return out
+
+	case reflect.Slice, reflect.Array:
+		n := rv.Len()
+		out := make([]any, n)
+		for i := 0; i < n; i++ {
+			out[i] = sanitize(rv.Index(i).Interface())
+		}
+		return out
+
+	case reflect.Map:
+		out := make(map[string]any)
+		for _, key := range rv.MapKeys() {
+			k := fmt.Sprint(key.Interface())
+			out[k] = sanitize(rv.MapIndex(key).Interface())
+		}
+		return out
+
 	default:
-		e = l.z.Info()
+		// everything else (primitives, strings, etc.)
+		return v
 	}
-	// Attach fields
-	for i := 0; i+1 < len(kv); i += 2 {
-		key := fmt.Sprint(kv[i])
-		val := kv[i+1]
-		if errVal, ok := val.(error); ok {
-			e = e.Err(errVal)
+}
+
+func BuildFields(args ...any) []zap.Field {
+	var fields []zap.Field
+	argCount := 0
+	for i := 0; i < len(args); i++ {
+		if key, ok := args[i].(string); ok && i+1 < len(args) {
+			fields = append(fields, zap.Any(key, sanitize(args[i+1])))
+			i++
 		} else {
-			e = e.Interface(key, val)
+			v := args[i]
+			argCount++
+			// Use "arg_N" as fallback key
+			key := fmt.Sprintf("arg_%d", argCount)
+			fields = append(fields, zap.Any(key, sanitize(v)))
 		}
 	}
-	// If odd trailing arg, log as error field
-	if len(kv)%2 == 1 {
-		if errVal, ok := kv[len(kv)-1].(error); ok {
-			e = e.Err(errVal)
-		} else {
-			e = e.Interface("args", kv[len(kv)-1])
-		}
-	}
-	// Emit message
-	e.Msg(msg)
-}
-
-func (l *loggerImpl) Debug(msg string, args ...any) {
-	l.log(zerolog.DebugLevel, msg, args...)
-}
-
-func (l *loggerImpl) Info(msg string, args ...any) {
-	l.log(zerolog.InfoLevel, msg, args...)
-}
-
-func (l *loggerImpl) Warn(msg string, args ...any) {
-	l.log(zerolog.WarnLevel, msg, args...)
-}
-
-func (l *loggerImpl) Error(msg string, args ...any) {
-	l.log(zerolog.ErrorLevel, msg, args...)
-}
-
-func (l *loggerImpl) Fatal(msg string, args ...any) {
-	l.log(zerolog.FatalLevel, msg, args...)
-	os.Exit(1)
+	return fields
 }

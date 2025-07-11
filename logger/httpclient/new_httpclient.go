@@ -1,23 +1,30 @@
 package httpclient
 
 import (
+	"bytes"
+	"errors"
 	"net/http"
-
-	"github.com/rs/zerolog"
+	"time"
 )
 
-type IHTTPClient interface {
-	Do(req *http.Request) (*http.Response, error)
+type HttpHookWriter struct {
+	URL string
 }
 
-type httpHook struct {
-	url    string
-	client IHTTPClient
-}
-
-func NewHTTPHook(url string, client IHTTPClient) zerolog.Hook {
-	if client == nil {
-		client = http.DefaultClient
+func (h *HttpHookWriter) Write(p []byte) (n int, err error) {
+	req, err := http.NewRequest("POST", h.URL, bytes.NewBuffer(p))
+	if err != nil {
+		return 0, err
 	}
-	return &httpHook{url: url, client: client}
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{Timeout: 2 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return 0, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode >= 300 {
+		return 0, errors.New("http hook responded with status: " + resp.Status)
+	}
+	return len(p), nil
 }
