@@ -11,7 +11,7 @@ import (
 )
 
 type Config struct {
-	Level        zapcore.Level
+	Level        string
 	EnableSentry bool
 	SentryDSN    string
 	HTTPHookURL  string
@@ -22,7 +22,7 @@ type Option func(*Config)
 
 func defaultConfig() Config {
 	return Config{
-		Level: zapcore.InfoLevel,
+		Level: INFO_LEVEL,
 	}
 }
 
@@ -49,16 +49,16 @@ func NewLogger(opts ...Option) (ILogger, error) {
 		EncodeCaller: zapcore.ShortCallerEncoder,
 	}
 	encoder := zapcore.NewJSONEncoder(encCfg)
+	lv := converLevel(cfg.Level)
 
-	// Output to stdout + optional HTTP hook
 	cores := []zapcore.Core{
-		zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), cfg.Level),
+		zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), lv),
 	}
 	if cfg.HTTPHookURL != "" {
 		hook := &httpclient.HttpHookWriter{
 			URL: cfg.HTTPHookURL,
 		}
-		cores = append(cores, zapcore.NewCore(encoder, zapcore.AddSync(hook), cfg.Level))
+		cores = append(cores, zapcore.NewCore(encoder, zapcore.AddSync(hook), lv))
 	}
 	tee := zapcore.NewTee(cores...)
 
@@ -89,4 +89,21 @@ func NewLogger(opts ...Option) (ILogger, error) {
 	return &impl{
 		core: base,
 	}, nil
+}
+
+func converLevel(lv string) zapcore.Level {
+	switch lv {
+	case DEBUG_LEVEL:
+		return zapcore.DebugLevel
+	case INFO_LEVEL:
+		return zapcore.InfoLevel
+	case WARN_LEVEL:
+		return zapcore.WarnLevel
+	case ERROR_LEVEL:
+		return zapcore.ErrorLevel
+	case FATAL_LEVEL:
+		return zapcore.FatalLevel
+	default:
+		return zap.ErrorLevel
+	}
 }
