@@ -2,6 +2,7 @@ package sentryhook
 
 import (
 	"encoding/base64"
+	"runtime"
 	"time"
 
 	"github.com/getsentry/sentry-go"
@@ -40,8 +41,14 @@ func logToSentry(entry zapcore.Entry, fields []zapcore.Field) {
 		Level:   ConvertLevel(entry.Level),
 		Extra: map[string]any{
 			"caller":    entry.Caller.String(),
+			"file":      entry.Caller.TrimmedPath(),
+			"logger":    entry.LoggerName,
 			"timestamp": entry.Time.Format(time.RFC3339),
 		},
+	}
+
+	if fn := runtime.FuncForPC(entry.Caller.PC); fn != nil {
+		event.Extra["func"] = fn.Name()
 	}
 
 	for _, f := range fields {
