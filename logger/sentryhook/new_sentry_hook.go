@@ -1,24 +1,54 @@
 package sentryhook
 
 import (
+	"time"
+
 	"github.com/getsentry/sentry-go"
-	"github.com/rs/zerolog"
+	"go.uber.org/zap/zapcore"
 )
 
-type ISentryHook interface {
-	Run(event *zerolog.Event, level sentry.Level, msg string)
+type SentryCore struct {
+	zapcore.Core
+	MinLevel zapcore.Level
 }
 
-type SentryOption func(*sentry.ClientOptions)
-
-func NewSentryHook(dsn string, opts ...SentryOption) zerolog.Hook {
-	cfg := sentry.ClientOptions{
-		Dsn: dsn,
+func (s *SentryCore) With(fields []zapcore.Field) zapcore.Core {
+	return &SentryCore{
+		Core:     s.Core.With(fields),
+		MinLevel: s.MinLevel,
 	}
-	for _, fn := range opts {
-		fn(&cfg)
-	}
-	_ = sentry.Init(cfg)
+}
 
-	return &sentryHook{}
+func (s *SentryCore) Check(entry zapcore.Entry, ce *zapcore.CheckedEntry) *zapcore.CheckedEntry {
+	if entry.Level >= s.MinLevel {
+		return ce.AddCore(entry, s)
+	}
+	return ce
+}
+
+func (s *SentryCore) Write(entry zapcore.Entry, fields []zapcore.Field) error {
+	if entry.Level >= s.MinLevel {
+		logToSentry(entry, fields)
+	}
+	return s.Core.Write(entry, fields)
+}
+
+func logToSentry(entry zapcore.Entry, fields []zapcore.Field) {
+	event := &sentry.Event{
+		Message: entry.Message,
+		Level:   ConvertLevel(entry.Level),
+		Extra:   make(map[string]any),
+	}
+
+	event.Extra["caller"] = entry.Caller.String()
+	event.Extra["timestamp"] = entry.Time.Format(time.RFC3339)
+
+	for _, f := range fields {
+		if f.Key != "" {
+			event.Extra[f.Key] = f.Interface
+		}
+	}
+
+	sentry.CaptureEvent(event)
+	sentry.Flush(2 * time.Second)
 }

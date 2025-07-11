@@ -20,9 +20,13 @@ type (
 )
 
 func NewNatsJetstream(config Config) INatsJetstream {
+	lg, err := logger.NewLogger(logger.WithServiceName("natsjetstream"))
+	if err != nil {
+		panic(err)
+	}
 	nat := &NatsJetStream{
 		Config: config,
-		lg:     logger.Default(),
+		lg:     lg,
 	}
 
 	return nat

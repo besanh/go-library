@@ -15,35 +15,3 @@ packages:
           formatter: "goimports"
           # overwrite existing files if they already exist
           force-file-write: true
-  github.com/besanh/go-library/logger/httpclient:
-    interfaces:
-      IHTTPClient:
-          config:
-            # directory to output the mock file
-            dir: "httpclient"
-            # package name for the generated mock
-            pkgname: "httpclient"
-            # name of the mock struct
-            structname: "MockIHTTPClient"
-            # filename for the generated mock
-            filename: "mock_ihttpclient.go"
-            # format the output using goimports
-            formatter: "goimports"
-            # overwrite existing files if they already exist
-            force-file-write: true
-  github.com/besanh/go-library/logger/sentryhook:
-      interfaces:
-        ISentryHook:
-          config:
-            # directory to output the mock file
-            dir: "sentryhook"
-            # package name for the generated mock
-            pkgname: "sentryhook"
-            # name of the mock struct
-            structname: "MockISentryHook"
-            # filename for the generated mock
-            filename: "mock_isentryhook.go"
-            # format the output using goimports
-            formatter: "goimports"
-            # overwrite existing files if they already exist
-            force-file-write: true

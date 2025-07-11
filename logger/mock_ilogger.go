@@ -36,9 +36,9 @@ func (_m *MockILogger) EXPECT() *MockILogger_Expecter {
 }
 
 // Debug provides a mock function for the type MockILogger
-func (_mock *MockILogger) Debug(msg string, args ...any) {
-	if len(args) > 0 {
-		_mock.Called(msg, args)
+func (_mock *MockILogger) Debug(msg string, fields ...any) {
+	if len(fields) > 0 {
+		_mock.Called(msg, fields)
 	} else {
 		_mock.Called(msg)
 	}
@@ -53,13 +53,13 @@ type MockILogger_Debug_Call struct {
 
 // Debug is a helper method to define mock.On call
 //   - msg string
-//   - args ...any
-func (_e *MockILogger_Expecter) Debug(msg interface{}, args ...interface{}) *MockILogger_Debug_Call {
+//   - fields ...any
+func (_e *MockILogger_Expecter) Debug(msg interface{}, fields ...interface{}) *MockILogger_Debug_Call {
 	return &MockILogger_Debug_Call{Call: _e.mock.On("Debug",
-		append([]interface{}{msg}, args...)...)}
+		append([]interface{}{msg}, fields...)...)}
 }
 
-func (_c *MockILogger_Debug_Call) Run(run func(msg string, args ...any)) *MockILogger_Debug_Call {
+func (_c *MockILogger_Debug_Call) Run(run func(msg string, fields ...any)) *MockILogger_Debug_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 string
 		if args[0] != nil {
@@ -84,15 +84,15 @@ func (_c *MockILogger_Debug_Call) Return() *MockILogger_Debug_Call {
 	return _c
 }
 
-func (_c *MockILogger_Debug_Call) RunAndReturn(run func(msg string, args ...any)) *MockILogger_Debug_Call {
+func (_c *MockILogger_Debug_Call) RunAndReturn(run func(msg string, fields ...any)) *MockILogger_Debug_Call {
 	_c.Run(run)
 	return _c
 }
 
 // Error provides a mock function for the type MockILogger
-func (_mock *MockILogger) Error(msg string, args ...any) {
-	if len(args) > 0 {
-		_mock.Called(msg, args)
+func (_mock *MockILogger) Error(msg string, fields ...any) {
+	if len(fields) > 0 {
+		_mock.Called(msg, fields)
 	} else {
 		_mock.Called(msg)
 	}
@@ -107,13 +107,13 @@ type MockILogger_Error_Call struct {
 
 // Error is a helper method to define mock.On call
 //   - msg string
-//   - args ...any
-func (_e *MockILogger_Expecter) Error(msg interface{}, args ...interface{}) *MockILogger_Error_Call {
+//   - fields ...any
+func (_e *MockILogger_Expecter) Error(msg interface{}, fields ...interface{}) *MockILogger_Error_Call {
 	return &MockILogger_Error_Call{Call: _e.mock.On("Error",
-		append([]interface{}{msg}, args...)...)}
+		append([]interface{}{msg}, fields...)...)}
 }
 
-func (_c *MockILogger_Error_Call) Run(run func(msg string, args ...any)) *MockILogger_Error_Call {
+func (_c *MockILogger_Error_Call) Run(run func(msg string, fields ...any)) *MockILogger_Error_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 string
 		if args[0] != nil {
@@ -138,15 +138,15 @@ func (_c *MockILogger_Error_Call) Return() *MockILogger_Error_Call {
 	return _c
 }
 
-func (_c *MockILogger_Error_Call) RunAndReturn(run func(msg string, args ...any)) *MockILogger_Error_Call {
+func (_c *MockILogger_Error_Call) RunAndReturn(run func(msg string, fields ...any)) *MockILogger_Error_Call {
 	_c.Run(run)
 	return _c
 }
 
 // Fatal provides a mock function for the type MockILogger
-func (_mock *MockILogger) Fatal(msg string, args ...any) {
-	if len(args) > 0 {
-		_mock.Called(msg, args)
+func (_mock *MockILogger) Fatal(msg string, fields ...any) {
+	if len(fields) > 0 {
+		_mock.Called(msg, fields)
 	} else {
 		_mock.Called(msg)
 	}
@@ -161,13 +161,13 @@ type MockILogger_Fatal_Call struct {
 
 // Fatal is a helper method to define mock.On call
 //   - msg string
-//   - args ...any
-func (_e *MockILogger_Expecter) Fatal(msg interface{}, args ...interface{}) *MockILogger_Fatal_Call {
+//   - fields ...any
+func (_e *MockILogger_Expecter) Fatal(msg interface{}, fields ...interface{}) *MockILogger_Fatal_Call {
 	return &MockILogger_Fatal_Call{Call: _e.mock.On("Fatal",
-		append([]interface{}{msg}, args...)...)}
+		append([]interface{}{msg}, fields...)...)}
 }
 
-func (_c *MockILogger_Fatal_Call) Run(run func(msg string, args ...any)) *MockILogger_Fatal_Call {
+func (_c *MockILogger_Fatal_Call) Run(run func(msg string, fields ...any)) *MockILogger_Fatal_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 string
 		if args[0] != nil {
@@ -192,15 +192,15 @@ func (_c *MockILogger_Fatal_Call) Return() *MockILogger_Fatal_Call {
 	return _c
 }
 
-func (_c *MockILogger_Fatal_Call) RunAndReturn(run func(msg string, args ...any)) *MockILogger_Fatal_Call {
+func (_c *MockILogger_Fatal_Call) RunAndReturn(run func(msg string, fields ...any)) *MockILogger_Fatal_Call {
 	_c.Run(run)
 	return _c
 }
 
 // Info provides a mock function for the type MockILogger
-func (_mock *MockILogger) Info(msg string, args ...any) {
-	if len(args) > 0 {
-		_mock.Called(msg, args)
+func (_mock *MockILogger) Info(msg string, fields ...any) {
+	if len(fields) > 0 {
+		_mock.Called(msg, fields)
 	} else {
 		_mock.Called(msg)
 	}
@@ -215,13 +215,13 @@ type MockILogger_Info_Call struct {
 
 // Info is a helper method to define mock.On call
 //   - msg string
-//   - args ...any
-func (_e *MockILogger_Expecter) Info(msg interface{}, args ...interface{}) *MockILogger_Info_Call {
+//   - fields ...any
+func (_e *MockILogger_Expecter) Info(msg interface{}, fields ...interface{}) *MockILogger_Info_Call {
 	return &MockILogger_Info_Call{Call: _e.mock.On("Info",
-		append([]interface{}{msg}, args...)...)}
+		append([]interface{}{msg}, fields...)...)}
 }
 
-func (_c *MockILogger_Info_Call) Run(run func(msg string, args ...any)) *MockILogger_Info_Call {
+func (_c *MockILogger_Info_Call) Run(run func(msg string, fields ...any)) *MockILogger_Info_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 string
 		if args[0] != nil {
@@ -246,15 +246,15 @@ func (_c *MockILogger_Info_Call) Return() *MockILogger_Info_Call {
 	return _c
 }
 
-func (_c *MockILogger_Info_Call) RunAndReturn(run func(msg string, args ...any)) *MockILogger_Info_Call {
+func (_c *MockILogger_Info_Call) RunAndReturn(run func(msg string, fields ...any)) *MockILogger_Info_Call {
 	_c.Run(run)
 	return _c
 }
 
 // Warn provides a mock function for the type MockILogger
-func (_mock *MockILogger) Warn(msg string, args ...any) {
-	if len(args) > 0 {
-		_mock.Called(msg, args)
+func (_mock *MockILogger) Warn(msg string, fields ...any) {
+	if len(fields) > 0 {
+		_mock.Called(msg, fields)
 	} else {
 		_mock.Called(msg)
 	}
@@ -269,13 +269,13 @@ type MockILogger_Warn_Call struct {
 
 // Warn is a helper method to define mock.On call
 //   - msg string
-//   - args ...any
-func (_e *MockILogger_Expecter) Warn(msg interface{}, args ...interface{}) *MockILogger_Warn_Call {
+//   - fields ...any
+func (_e *MockILogger_Expecter) Warn(msg interface{}, fields ...interface{}) *MockILogger_Warn_Call {
 	return &MockILogger_Warn_Call{Call: _e.mock.On("Warn",
-		append([]interface{}{msg}, args...)...)}
+		append([]interface{}{msg}, fields...)...)}
 }
 
-func (_c *MockILogger_Warn_Call) Run(run func(msg string, args ...any)) *MockILogger_Warn_Call {
+func (_c *MockILogger_Warn_Call) Run(run func(msg string, fields ...any)) *MockILogger_Warn_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 string
 		if args[0] != nil {
@@ -300,69 +300,7 @@ func (_c *MockILogger_Warn_Call) Return() *MockILogger_Warn_Call {
 	return _c
 }
 
-func (_c *MockILogger_Warn_Call) RunAndReturn(run func(msg string, args ...any)) *MockILogger_Warn_Call {
+func (_c *MockILogger_Warn_Call) RunAndReturn(run func(msg string, fields ...any)) *MockILogger_Warn_Call {
 	_c.Run(run)
-	return _c
-}
-
-// With provides a mock function for the type MockILogger
-func (_mock *MockILogger) With(args ...any) ILogger {
-	var tmpRet mock.Arguments
-	if len(args) > 0 {
-		tmpRet = _mock.Called(args)
-	} else {
-		tmpRet = _mock.Called()
-	}
-	ret := tmpRet
-
-	if len(ret) == 0 {
-		panic("no return value specified for With")
-	}
-
-	var r0 ILogger
-	if returnFunc, ok := ret.Get(0).(func(...any) ILogger); ok {
-		r0 = returnFunc(args...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(ILogger)
-		}
-	}
-	return r0
-}
-
-// MockILogger_With_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'With'
-type MockILogger_With_Call struct {
-	*mock.Call
-}
-
-// With is a helper method to define mock.On call
-//   - args ...any
-func (_e *MockILogger_Expecter) With(args ...interface{}) *MockILogger_With_Call {
-	return &MockILogger_With_Call{Call: _e.mock.On("With",
-		append([]interface{}{}, args...)...)}
-}
-
-func (_c *MockILogger_With_Call) Run(run func(args ...any)) *MockILogger_With_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 []any
-		var variadicArgs []any
-		if len(args) > 0 {
-			variadicArgs = args[0].([]any)
-		}
-		arg0 = variadicArgs
-		run(
-			arg0...,
-		)
-	})
-	return _c
-}
-
-func (_c *MockILogger_With_Call) Return(iLogger ILogger) *MockILogger_With_Call {
-	_c.Call.Return(iLogger)
-	return _c
-}
-
-func (_c *MockILogger_With_Call) RunAndReturn(run func(args ...any) ILogger) *MockILogger_With_Call {
-	_c.Call.Return(run)
 	return _c
 }
