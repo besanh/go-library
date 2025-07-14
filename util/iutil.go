@@ -39,6 +39,8 @@ type IUtil interface {
 	// Oauth2
 	GenerateCodeVerifier() (string, error)
 	GenerateCodeChallenge(verifier string) string
+	Encrypt(plaintext string) (string, error)
+	Decrypt(encryptedText string) (string, error)
 }
 
 var LETTER_RUNES = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")

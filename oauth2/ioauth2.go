@@ -9,7 +9,7 @@ import (
 
 type IOAuth2 interface {
 	AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string
-	Exchange(ctx context.Context, code string) (*oauth2.Token, error)
+	Exchange(ctx context.Context, code string, opts ...oauth2.AuthCodeOption) (*oauth2.Token, error)
 	Token() (*oauth2.Token, error)
 	HTTPClient(ctx context.Context) *http.Client
 }
@@ -20,8 +20,8 @@ func (c *Client) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string
 }
 
 // Exchange exchanges an authorization code for a token.
-func (c *Client) Exchange(ctx context.Context, code string) (*oauth2.Token, error) {
-	return c.config.Exchange(ctx, code)
+func (c *Client) Exchange(ctx context.Context, code string, opts ...oauth2.AuthCodeOption) (*oauth2.Token, error) {
+	return c.config.Exchange(ctx, code, opts...)
 }
 
 // Token retrieves a valid token, refreshing if necessary.
