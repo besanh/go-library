@@ -71,7 +71,7 @@ func BadRequest[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
 			Code:    http.StatusBadRequest,
-			Message: "Bad Request",
+			Message: "bad request",
 		},
 	}
 	return
@@ -91,7 +91,7 @@ func NotFound[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
 			Code:    http.StatusNotFound,
-			Message: "Not Found",
+			Message: "not found",
 		},
 	}
 	return
@@ -111,7 +111,7 @@ func Forbidden[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
 			Code:    http.StatusForbidden,
-			Message: "Forbidden",
+			Message: "forbidden",
 		},
 	}
 	return
@@ -121,7 +121,7 @@ func Unauthorized[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
 			Code:    http.StatusUnauthorized,
-			Message: "Unauthorized",
+			Message: "unauthorized",
 		},
 	}
 	return
@@ -131,7 +131,7 @@ func ServiceUnavailable[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
 			Code:    http.StatusServiceUnavailable,
-			Message: "Service Unavailable",
+			Message: "service unavailable",
 		},
 	}
 	return
@@ -156,7 +156,7 @@ func Created[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
 			Code:    http.StatusCreated,
-			Message: "Created",
+			Message: "created",
 		},
 	}
 	return

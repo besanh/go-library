@@ -33,6 +33,6 @@ type MediaResponse struct {
 	Body                    []byte
 }
 
-type IdResponse struct {
-	Id string `json:"id"`
+type IDResponse struct {
+	ID string `json:"id"`
 }

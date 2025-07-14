@@ -1,7 +1,11 @@
 package memcache
 
-import "github.com/jellydator/ttlcache/v3"
+import (
+	"time"
+
+	"github.com/jellydator/ttlcache/v3"
+)
 
 const (
-	DEFAULT_TTL = ttlcache.DefaultTTL
+	DEFAULT_TTL time.Duration = ttlcache.DefaultTTL
 )
