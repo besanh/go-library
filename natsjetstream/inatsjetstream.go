@@ -20,6 +20,7 @@ func (n *NatsJetStream) Connect() error {
 	}
 	n.NC = nc
 	n.Ping()
+
 	return nil
 }
 

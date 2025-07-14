@@ -23,7 +23,7 @@ type Client struct {
 }
 
 // NewClient creates a new OAuth2 Client. If initialToken is nil, TokenSource will fetch tokens via Exchange().
-func NewClient(cfg Config, initialToken *oauth2.Token) *Client {
+func NewClient(cfg Config, initialToken *oauth2.Token) IOAuth2 {
 	oauthCfg := &oauth2.Config{
 		ClientID:     cfg.ClientID,
 		ClientSecret: cfg.ClientSecret,
@@ -36,6 +36,7 @@ func NewClient(cfg Config, initialToken *oauth2.Token) *Client {
 	}
 	// Create TokenSource, which will auto-refresh as needed
 	ts := oauthCfg.TokenSource(context.Background(), initialToken)
+
 	return &Client{
 		config:      oauthCfg,
 		tokenSource: ts,
