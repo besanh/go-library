@@ -161,6 +161,110 @@ func (_c *MockIUtil_ConvertMillisToTimeString_Call) RunAndReturn(run func(millis
 	return _c
 }
 
+// GenerateCodeChallenge provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) GenerateCodeChallenge(verifier string) string {
+	ret := _mock.Called(verifier)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GenerateCodeChallenge")
+	}
+
+	var r0 string
+	if returnFunc, ok := ret.Get(0).(func(string) string); ok {
+		r0 = returnFunc(verifier)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+	return r0
+}
+
+// MockIUtil_GenerateCodeChallenge_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GenerateCodeChallenge'
+type MockIUtil_GenerateCodeChallenge_Call struct {
+	*mock.Call
+}
+
+// GenerateCodeChallenge is a helper method to define mock.On call
+//   - verifier string
+func (_e *MockIUtil_Expecter) GenerateCodeChallenge(verifier interface{}) *MockIUtil_GenerateCodeChallenge_Call {
+	return &MockIUtil_GenerateCodeChallenge_Call{Call: _e.mock.On("GenerateCodeChallenge", verifier)}
+}
+
+func (_c *MockIUtil_GenerateCodeChallenge_Call) Run(run func(verifier string)) *MockIUtil_GenerateCodeChallenge_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_GenerateCodeChallenge_Call) Return(s string) *MockIUtil_GenerateCodeChallenge_Call {
+	_c.Call.Return(s)
+	return _c
+}
+
+func (_c *MockIUtil_GenerateCodeChallenge_Call) RunAndReturn(run func(verifier string) string) *MockIUtil_GenerateCodeChallenge_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GenerateCodeVerifier provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) GenerateCodeVerifier() (string, error) {
+	ret := _mock.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for GenerateCodeVerifier")
+	}
+
+	var r0 string
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func() (string, error)); ok {
+		return returnFunc()
+	}
+	if returnFunc, ok := ret.Get(0).(func() string); ok {
+		r0 = returnFunc()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+	if returnFunc, ok := ret.Get(1).(func() error); ok {
+		r1 = returnFunc()
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIUtil_GenerateCodeVerifier_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GenerateCodeVerifier'
+type MockIUtil_GenerateCodeVerifier_Call struct {
+	*mock.Call
+}
+
+// GenerateCodeVerifier is a helper method to define mock.On call
+func (_e *MockIUtil_Expecter) GenerateCodeVerifier() *MockIUtil_GenerateCodeVerifier_Call {
+	return &MockIUtil_GenerateCodeVerifier_Call{Call: _e.mock.On("GenerateCodeVerifier")}
+}
+
+func (_c *MockIUtil_GenerateCodeVerifier_Call) Run(run func()) *MockIUtil_GenerateCodeVerifier_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *MockIUtil_GenerateCodeVerifier_Call) Return(s string, err error) *MockIUtil_GenerateCodeVerifier_Call {
+	_c.Call.Return(s, err)
+	return _c
+}
+
+func (_c *MockIUtil_GenerateCodeVerifier_Call) RunAndReturn(run func() (string, error)) *MockIUtil_GenerateCodeVerifier_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GenerateRandomString provides a mock function for the type MockIUtil
 func (_mock *MockIUtil) GenerateRandomString(n int, letterRunes []rune) string {
 	ret := _mock.Called(n, letterRunes)

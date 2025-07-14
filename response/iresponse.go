@@ -2,9 +2,6 @@ package response
 
 import "net/http"
 
-type IResponse interface {
-}
-
 func OK[T any](data T, msgs ...string) (res *GenericResponse[T]) {
 	msg := "success"
 	if len(msgs) > 0 {
