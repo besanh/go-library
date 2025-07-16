@@ -70,10 +70,12 @@ func NewLogger(opts ...Option) (ILogger, error) {
 		}); err != nil {
 			return nil, err
 		}
-		core = &sentryhook.SentryCore{
-			Core:     tee,
+		sentryCore := &sentryhook.SentryCore{
+			Core:     zapcore.NewNopCore(),
 			MinLevel: zapcore.ErrorLevel,
 		}
+
+		core = zapcore.NewTee(tee, sentryCore)
 	}
 
 	base := zap.New(core,
