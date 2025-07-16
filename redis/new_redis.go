@@ -25,6 +25,8 @@ type Client struct {
 	Ctx context.Context
 }
 
+const RedisNil = redis.Nil
+
 func NewRedis(cfg Config) (*Client, error) {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:            cfg.Address,
