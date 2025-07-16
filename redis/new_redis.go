@@ -21,11 +21,10 @@ type Config struct {
 }
 
 type Client struct {
-	Rdb *redis.Client
-	Ctx context.Context
+	Rdb      *redis.Client
+	Ctx      context.Context
+	RedisNil error
 }
-
-const RedisNil = redis.Nil
 
 func NewRedis(cfg Config) (*Client, error) {
 	rdb := redis.NewClient(&redis.Options{
@@ -48,7 +47,8 @@ func NewRedis(cfg Config) (*Client, error) {
 	}
 
 	return &Client{
-		Rdb: rdb,
-		Ctx: ctx,
+		Rdb:      rdb,
+		Ctx:      ctx,
+		RedisNil: redis.Nil,
 	}, nil
 }
