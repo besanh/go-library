@@ -67,7 +67,7 @@ func sanitize(v any) any {
 	case reflect.Slice, reflect.Array:
 		n := rv.Len()
 		out := make([]any, n)
-		for i := 0; i < n; i++ {
+		for i := range n {
 			out[i] = sanitize(rv.Index(i).Interface())
 		}
 		return out

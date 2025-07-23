@@ -19,9 +19,10 @@ type GenericResponse[T any] struct {
 }
 
 type BodyResponse[T any] struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-	Data    T      `json:"data,omitempty"`
+	Code        int    `json:"code"`
+	MessageCode string `json:"message_code,omitempty"`
+	Message     string `json:"message"`
+	Data        T      `json:"data,omitempty"`
 }
 
 type MediaResponse struct {
