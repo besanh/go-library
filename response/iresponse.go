@@ -70,18 +70,20 @@ func Pagination[T any](data T, total int64, limit int64, offset int64, msgs ...s
 func BadRequest[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusBadRequest,
-			Message: "bad request",
+			Code:        http.StatusBadRequest,
+			MessageCode: "bad_request",
+			Message:     "bad request",
 		},
 	}
 	return
 }
 
-func BadRequestWithMsg[T any](msg string) (res *GenericResponse[T]) {
+func BadRequestWithMsg[T any](messageCode, msg string) (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusBadRequest,
-			Message: msg,
+			Code:        http.StatusBadRequest,
+			MessageCode: messageCode,
+			Message:     msg,
 		},
 	}
 	return
@@ -90,18 +92,20 @@ func BadRequestWithMsg[T any](msg string) (res *GenericResponse[T]) {
 func NotFound[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusNotFound,
-			Message: "not found",
+			Code:        http.StatusNotFound,
+			MessageCode: "not_found",
+			Message:     "not found",
 		},
 	}
 	return
 }
 
-func NotFoundWithMsg[T any](msg string) (res *GenericResponse[T]) {
+func NotFoundWithMsg[T any](messageCode, msg string) (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusNotFound,
-			Message: msg,
+			Code:        http.StatusNotFound,
+			MessageCode: messageCode,
+			Message:     msg,
 		},
 	}
 	return
@@ -110,8 +114,20 @@ func NotFoundWithMsg[T any](msg string) (res *GenericResponse[T]) {
 func Forbidden[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusForbidden,
-			Message: "forbidden",
+			Code:        http.StatusForbidden,
+			MessageCode: "forbidden",
+			Message:     "forbidden",
+		},
+	}
+	return
+}
+
+func ForbiddenWithMsg[T any](messageCode, msg string) (res *GenericResponse[T]) {
+	res = &GenericResponse[T]{
+		Body: BodyResponse[T]{
+			Code:        http.StatusForbidden,
+			MessageCode: messageCode,
+			Message:     msg,
 		},
 	}
 	return
@@ -120,8 +136,20 @@ func Forbidden[T any]() (res *GenericResponse[T]) {
 func Unauthorized[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusUnauthorized,
-			Message: "unauthorized",
+			Code:        http.StatusUnauthorized,
+			MessageCode: "unauthorized",
+			Message:     "unauthorized",
+		},
+	}
+	return
+}
+
+func UnauthorizedWithMsg[T any](messageCode, msg string) (res *GenericResponse[T]) {
+	res = &GenericResponse[T]{
+		Body: BodyResponse[T]{
+			Code:        http.StatusUnauthorized,
+			MessageCode: messageCode,
+			Message:     msg,
 		},
 	}
 	return
@@ -130,18 +158,20 @@ func Unauthorized[T any]() (res *GenericResponse[T]) {
 func ServiceUnavailable[T any]() (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusServiceUnavailable,
-			Message: "service unavailable",
+			Code:        http.StatusServiceUnavailable,
+			MessageCode: "service_unavailable",
+			Message:     "service unavailable",
 		},
 	}
 	return
 }
 
-func ServiceUnavailableWithMsg[T any](msg string) (res *GenericResponse[T]) {
+func ServiceUnavailableWithMsg[T any](messageCode, msg string) (res *GenericResponse[T]) {
 	res = &GenericResponse[T]{
 		Body: BodyResponse[T]{
-			Code:    http.StatusServiceUnavailable,
-			Message: msg,
+			Code:        http.StatusServiceUnavailable,
+			MessageCode: messageCode,
+			Message:     msg,
 		},
 	}
 	return
