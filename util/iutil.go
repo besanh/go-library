@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/dromara/carbon/v2"
+	"github.com/google/uuid"
 )
 
 type IUtil interface {
@@ -41,6 +42,10 @@ type IUtil interface {
 	GenerateCodeChallenge(verifier string) string
 	Encrypt(plaintext string) (string, error)
 	Decrypt(encryptedText string) (string, error)
+
+	// Parsing
+	UUIDPtrToStringPtr(u *uuid.UUID) *string
+	StringPtrToUUIDPtr(s *string) (*uuid.UUID, error)
 }
 
 var LETTER_RUNES = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
