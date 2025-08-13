@@ -6,25 +6,19 @@ import (
 	"github.com/google/uuid"
 )
 
-// UUIDPtrToStringPtr converts a *uuid.UUID to a *string.
+// UUIDPtrToStringPtr converts a uuid.UUID to a *string.
 // Returns nil if the input is nil.
-func (i *Util) UUIDPtrToStringPtr(u *uuid.UUID) *string {
-	if u == nil {
-		return nil
-	}
+func (i *Util) UUIDPtrToStringPtr(u uuid.UUID) *string {
 	s := u.String()
 	return &s
 }
 
-// StringPtrToUUIDPtr parses a *string (containing a UUID) back to a *uuid.UUID.
+// StringPtrToUUIDPtr parses a string (containing a UUID) back to a *uuid.UUID.
 // Returns (nil, nil) if the input is nil, or an error if the string isn’t a valid UUID.
-func (i *Util) StringPtrToUUIDPtr(s *string) (*uuid.UUID, error) {
-	if s == nil {
-		return nil, nil
-	}
-	u, err := uuid.Parse(*s)
+func (i *Util) StringPtrToUUIDPtr(s string) (*uuid.UUID, error) {
+	u, err := uuid.Parse(s)
 	if err != nil {
-		return nil, fmt.Errorf("invalid UUID %q: %w", *s, err)
+		return nil, fmt.Errorf("invalid UUID %q: %w", s, err)
 	}
 	return &u, nil
 }
