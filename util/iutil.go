@@ -44,8 +44,8 @@ type IUtil interface {
 	Decrypt(encryptedText string) (string, error)
 
 	// Parsing
-	UUIDPtrToStringPtr(u *uuid.UUID) *string
-	StringPtrToUUIDPtr(s *string) (*uuid.UUID, error)
+	UUIDPtrToStringPtr(u uuid.UUID) *string
+	StringPtrToUUIDPtr(s string) (*uuid.UUID, error)
 }
 
 var LETTER_RUNES = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
