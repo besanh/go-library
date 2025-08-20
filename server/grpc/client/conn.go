@@ -1,8 +1,6 @@
 package client
 
 import (
-	"log"
-
 	"google.golang.org/grpc"
 )
 
@@ -16,7 +14,7 @@ func NewConn(address string, options ...grpc.DialOption) GrpcConn {
 		options...,
 	)
 	if err != nil {
-		log.Fatalf("failed to initialize grpc connection. Error: %v", err)
+		panic(err)
 	}
 	return &grpcConn{
 		conn: conn,
