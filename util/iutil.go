@@ -15,6 +15,7 @@ import (
 
 	"github.com/dromara/carbon/v2"
 	"github.com/google/uuid"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type IUtil interface {
@@ -46,6 +47,7 @@ type IUtil interface {
 	// Parsing
 	UUIDPtrToStringPtr(u uuid.UUID) *string
 	StringPtrToUUIDPtr(s string) (*uuid.UUID, error)
+	ConvertStringToTimestampPb(t string) (*timestamppb.Timestamp, error)
 }
 
 var LETTER_RUNES = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
