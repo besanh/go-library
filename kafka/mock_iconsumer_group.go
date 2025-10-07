@@ -81,6 +81,52 @@ func (_c *MockIConsumerGroup_Close_Call) RunAndReturn(run func() error) *MockICo
 	return _c
 }
 
+// Messages provides a mock function for the type MockIConsumerGroup
+func (_mock *MockIConsumerGroup) Messages() <-chan []byte {
+	ret := _mock.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Messages")
+	}
+
+	var r0 <-chan []byte
+	if returnFunc, ok := ret.Get(0).(func() <-chan []byte); ok {
+		r0 = returnFunc()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(<-chan []byte)
+		}
+	}
+	return r0
+}
+
+// MockIConsumerGroup_Messages_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Messages'
+type MockIConsumerGroup_Messages_Call struct {
+	*mock.Call
+}
+
+// Messages is a helper method to define mock.On call
+func (_e *MockIConsumerGroup_Expecter) Messages() *MockIConsumerGroup_Messages_Call {
+	return &MockIConsumerGroup_Messages_Call{Call: _e.mock.On("Messages")}
+}
+
+func (_c *MockIConsumerGroup_Messages_Call) Run(run func()) *MockIConsumerGroup_Messages_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *MockIConsumerGroup_Messages_Call) Return(bytesCh <-chan []byte) *MockIConsumerGroup_Messages_Call {
+	_c.Call.Return(bytesCh)
+	return _c
+}
+
+func (_c *MockIConsumerGroup_Messages_Call) RunAndReturn(run func() <-chan []byte) *MockIConsumerGroup_Messages_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // Start provides a mock function for the type MockIConsumerGroup
 func (_mock *MockIConsumerGroup) Start(ctx context.Context) error {
 	ret := _mock.Called(ctx)

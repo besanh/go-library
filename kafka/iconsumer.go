@@ -19,6 +19,7 @@ type IMessageHandler interface {
 type IConsumerGroup interface {
 	Start(ctx context.Context) error
 	Close() error
+	Messages() <-chan []byte
 }
 
 // Start consuming until context cancellation or SIGINT/SIGTERM
@@ -42,6 +43,11 @@ func (c *ConsumerGroup) Start(ctx context.Context) error {
 // Close stops the consumer group
 func (c *ConsumerGroup) Close() error {
 	return c.group.Close()
+}
+
+// Messages returns the message channel
+func (c *ConsumerGroup) Messages() <-chan []byte {
+	return c.msgChan
 }
 
 // adapter for sarama.ConsumerGroupHandler

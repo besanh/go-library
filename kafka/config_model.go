@@ -17,6 +17,7 @@ type KafkaConfig struct {
 	RetryMax       int
 	RetryBackoff   time.Duration
 	ConsumerOffset string
+	BufferSize     int
 }
 
 func (c *KafkaConfig) Validate() error {
