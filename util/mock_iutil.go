@@ -8,7 +8,9 @@ import (
 	"bytes"
 	"time"
 
+	"github.com/google/uuid"
 	mock "github.com/stretchr/testify/mock"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // NewMockIUtil creates a new instance of MockIUtil. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
@@ -157,6 +159,248 @@ func (_c *MockIUtil_ConvertMillisToTimeString_Call) Return(s string) *MockIUtil_
 }
 
 func (_c *MockIUtil_ConvertMillisToTimeString_Call) RunAndReturn(run func(millis int) string) *MockIUtil_ConvertMillisToTimeString_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ConvertStringToTimestampPb provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) ConvertStringToTimestampPb(t string) (*timestamppb.Timestamp, error) {
+	ret := _mock.Called(t)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ConvertStringToTimestampPb")
+	}
+
+	var r0 *timestamppb.Timestamp
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) (*timestamppb.Timestamp, error)); ok {
+		return returnFunc(t)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) *timestamppb.Timestamp); ok {
+		r0 = returnFunc(t)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*timestamppb.Timestamp)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(t)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIUtil_ConvertStringToTimestampPb_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ConvertStringToTimestampPb'
+type MockIUtil_ConvertStringToTimestampPb_Call struct {
+	*mock.Call
+}
+
+// ConvertStringToTimestampPb is a helper method to define mock.On call
+//   - t string
+func (_e *MockIUtil_Expecter) ConvertStringToTimestampPb(t interface{}) *MockIUtil_ConvertStringToTimestampPb_Call {
+	return &MockIUtil_ConvertStringToTimestampPb_Call{Call: _e.mock.On("ConvertStringToTimestampPb", t)}
+}
+
+func (_c *MockIUtil_ConvertStringToTimestampPb_Call) Run(run func(t string)) *MockIUtil_ConvertStringToTimestampPb_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_ConvertStringToTimestampPb_Call) Return(timestamp *timestamppb.Timestamp, err error) *MockIUtil_ConvertStringToTimestampPb_Call {
+	_c.Call.Return(timestamp, err)
+	return _c
+}
+
+func (_c *MockIUtil_ConvertStringToTimestampPb_Call) RunAndReturn(run func(t string) (*timestamppb.Timestamp, error)) *MockIUtil_ConvertStringToTimestampPb_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DecodeUnicode provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) DecodeUnicode(text string) (string, error) {
+	ret := _mock.Called(text)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DecodeUnicode")
+	}
+
+	var r0 string
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) (string, error)); ok {
+		return returnFunc(text)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) string); ok {
+		r0 = returnFunc(text)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(text)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIUtil_DecodeUnicode_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DecodeUnicode'
+type MockIUtil_DecodeUnicode_Call struct {
+	*mock.Call
+}
+
+// DecodeUnicode is a helper method to define mock.On call
+//   - text string
+func (_e *MockIUtil_Expecter) DecodeUnicode(text interface{}) *MockIUtil_DecodeUnicode_Call {
+	return &MockIUtil_DecodeUnicode_Call{Call: _e.mock.On("DecodeUnicode", text)}
+}
+
+func (_c *MockIUtil_DecodeUnicode_Call) Run(run func(text string)) *MockIUtil_DecodeUnicode_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_DecodeUnicode_Call) Return(s string, err error) *MockIUtil_DecodeUnicode_Call {
+	_c.Call.Return(s, err)
+	return _c
+}
+
+func (_c *MockIUtil_DecodeUnicode_Call) RunAndReturn(run func(text string) (string, error)) *MockIUtil_DecodeUnicode_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Decrypt provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) Decrypt(encryptedText string) (string, error) {
+	ret := _mock.Called(encryptedText)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Decrypt")
+	}
+
+	var r0 string
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) (string, error)); ok {
+		return returnFunc(encryptedText)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) string); ok {
+		r0 = returnFunc(encryptedText)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(encryptedText)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIUtil_Decrypt_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Decrypt'
+type MockIUtil_Decrypt_Call struct {
+	*mock.Call
+}
+
+// Decrypt is a helper method to define mock.On call
+//   - encryptedText string
+func (_e *MockIUtil_Expecter) Decrypt(encryptedText interface{}) *MockIUtil_Decrypt_Call {
+	return &MockIUtil_Decrypt_Call{Call: _e.mock.On("Decrypt", encryptedText)}
+}
+
+func (_c *MockIUtil_Decrypt_Call) Run(run func(encryptedText string)) *MockIUtil_Decrypt_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_Decrypt_Call) Return(s string, err error) *MockIUtil_Decrypt_Call {
+	_c.Call.Return(s, err)
+	return _c
+}
+
+func (_c *MockIUtil_Decrypt_Call) RunAndReturn(run func(encryptedText string) (string, error)) *MockIUtil_Decrypt_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Encrypt provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) Encrypt(plaintext string) (string, error) {
+	ret := _mock.Called(plaintext)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Encrypt")
+	}
+
+	var r0 string
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) (string, error)); ok {
+		return returnFunc(plaintext)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) string); ok {
+		r0 = returnFunc(plaintext)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(plaintext)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIUtil_Encrypt_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Encrypt'
+type MockIUtil_Encrypt_Call struct {
+	*mock.Call
+}
+
+// Encrypt is a helper method to define mock.On call
+//   - plaintext string
+func (_e *MockIUtil_Expecter) Encrypt(plaintext interface{}) *MockIUtil_Encrypt_Call {
+	return &MockIUtil_Encrypt_Call{Call: _e.mock.On("Encrypt", plaintext)}
+}
+
+func (_c *MockIUtil_Encrypt_Call) Run(run func(plaintext string)) *MockIUtil_Encrypt_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_Encrypt_Call) Return(s string, err error) *MockIUtil_Encrypt_Call {
+	_c.Call.Return(s, err)
+	return _c
+}
+
+func (_c *MockIUtil_Encrypt_Call) RunAndReturn(run func(plaintext string) (string, error)) *MockIUtil_Encrypt_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -541,6 +785,72 @@ func (_c *MockIUtil_HandleExcelStreamWriter_Call) Return(buffer *bytes.Buffer, e
 }
 
 func (_c *MockIUtil_HandleExcelStreamWriter_Call) RunAndReturn(run func(headers [][]string, rows [][]string, mergedColumns ...string) (*bytes.Buffer, error)) *MockIUtil_HandleExcelStreamWriter_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// JoinWithSeparator provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) JoinWithSeparator(input []string, separator ...string) string {
+	var tmpRet mock.Arguments
+	if len(separator) > 0 {
+		tmpRet = _mock.Called(input, separator)
+	} else {
+		tmpRet = _mock.Called(input)
+	}
+	ret := tmpRet
+
+	if len(ret) == 0 {
+		panic("no return value specified for JoinWithSeparator")
+	}
+
+	var r0 string
+	if returnFunc, ok := ret.Get(0).(func([]string, ...string) string); ok {
+		r0 = returnFunc(input, separator...)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+	return r0
+}
+
+// MockIUtil_JoinWithSeparator_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'JoinWithSeparator'
+type MockIUtil_JoinWithSeparator_Call struct {
+	*mock.Call
+}
+
+// JoinWithSeparator is a helper method to define mock.On call
+//   - input []string
+//   - separator ...string
+func (_e *MockIUtil_Expecter) JoinWithSeparator(input interface{}, separator ...interface{}) *MockIUtil_JoinWithSeparator_Call {
+	return &MockIUtil_JoinWithSeparator_Call{Call: _e.mock.On("JoinWithSeparator",
+		append([]interface{}{input}, separator...)...)}
+}
+
+func (_c *MockIUtil_JoinWithSeparator_Call) Run(run func(input []string, separator ...string)) *MockIUtil_JoinWithSeparator_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 []string
+		if args[0] != nil {
+			arg0 = args[0].([]string)
+		}
+		var arg1 []string
+		var variadicArgs []string
+		if len(args) > 1 {
+			variadicArgs = args[1].([]string)
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_JoinWithSeparator_Call) Return(s string) *MockIUtil_JoinWithSeparator_Call {
+	_c.Call.Return(s)
+	return _c
+}
+
+func (_c *MockIUtil_JoinWithSeparator_Call) RunAndReturn(run func(input []string, separator ...string) string) *MockIUtil_JoinWithSeparator_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1038,6 +1348,189 @@ func (_c *MockIUtil_ParseStringToTime_Call) Return(time1 *time.Time) *MockIUtil_
 }
 
 func (_c *MockIUtil_ParseStringToTime_Call) RunAndReturn(run func(t string, timezone ...string) *time.Time) *MockIUtil_ParseStringToTime_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SplitWithSeparator provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) SplitWithSeparator(input string, separator ...string) []string {
+	var tmpRet mock.Arguments
+	if len(separator) > 0 {
+		tmpRet = _mock.Called(input, separator)
+	} else {
+		tmpRet = _mock.Called(input)
+	}
+	ret := tmpRet
+
+	if len(ret) == 0 {
+		panic("no return value specified for SplitWithSeparator")
+	}
+
+	var r0 []string
+	if returnFunc, ok := ret.Get(0).(func(string, ...string) []string); ok {
+		r0 = returnFunc(input, separator...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]string)
+		}
+	}
+	return r0
+}
+
+// MockIUtil_SplitWithSeparator_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SplitWithSeparator'
+type MockIUtil_SplitWithSeparator_Call struct {
+	*mock.Call
+}
+
+// SplitWithSeparator is a helper method to define mock.On call
+//   - input string
+//   - separator ...string
+func (_e *MockIUtil_Expecter) SplitWithSeparator(input interface{}, separator ...interface{}) *MockIUtil_SplitWithSeparator_Call {
+	return &MockIUtil_SplitWithSeparator_Call{Call: _e.mock.On("SplitWithSeparator",
+		append([]interface{}{input}, separator...)...)}
+}
+
+func (_c *MockIUtil_SplitWithSeparator_Call) Run(run func(input string, separator ...string)) *MockIUtil_SplitWithSeparator_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		var arg1 []string
+		var variadicArgs []string
+		if len(args) > 1 {
+			variadicArgs = args[1].([]string)
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_SplitWithSeparator_Call) Return(strings []string) *MockIUtil_SplitWithSeparator_Call {
+	_c.Call.Return(strings)
+	return _c
+}
+
+func (_c *MockIUtil_SplitWithSeparator_Call) RunAndReturn(run func(input string, separator ...string) []string) *MockIUtil_SplitWithSeparator_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// StringPtrToUUIDPtr provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) StringPtrToUUIDPtr(s string) (*uuid.UUID, error) {
+	ret := _mock.Called(s)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StringPtrToUUIDPtr")
+	}
+
+	var r0 *uuid.UUID
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(string) (*uuid.UUID, error)); ok {
+		return returnFunc(s)
+	}
+	if returnFunc, ok := ret.Get(0).(func(string) *uuid.UUID); ok {
+		r0 = returnFunc(s)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*uuid.UUID)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(string) error); ok {
+		r1 = returnFunc(s)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockIUtil_StringPtrToUUIDPtr_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StringPtrToUUIDPtr'
+type MockIUtil_StringPtrToUUIDPtr_Call struct {
+	*mock.Call
+}
+
+// StringPtrToUUIDPtr is a helper method to define mock.On call
+//   - s string
+func (_e *MockIUtil_Expecter) StringPtrToUUIDPtr(s interface{}) *MockIUtil_StringPtrToUUIDPtr_Call {
+	return &MockIUtil_StringPtrToUUIDPtr_Call{Call: _e.mock.On("StringPtrToUUIDPtr", s)}
+}
+
+func (_c *MockIUtil_StringPtrToUUIDPtr_Call) Run(run func(s string)) *MockIUtil_StringPtrToUUIDPtr_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 string
+		if args[0] != nil {
+			arg0 = args[0].(string)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_StringPtrToUUIDPtr_Call) Return(uUID *uuid.UUID, err error) *MockIUtil_StringPtrToUUIDPtr_Call {
+	_c.Call.Return(uUID, err)
+	return _c
+}
+
+func (_c *MockIUtil_StringPtrToUUIDPtr_Call) RunAndReturn(run func(s string) (*uuid.UUID, error)) *MockIUtil_StringPtrToUUIDPtr_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UUIDPtrToStringPtr provides a mock function for the type MockIUtil
+func (_mock *MockIUtil) UUIDPtrToStringPtr(u uuid.UUID) *string {
+	ret := _mock.Called(u)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UUIDPtrToStringPtr")
+	}
+
+	var r0 *string
+	if returnFunc, ok := ret.Get(0).(func(uuid.UUID) *string); ok {
+		r0 = returnFunc(u)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*string)
+		}
+	}
+	return r0
+}
+
+// MockIUtil_UUIDPtrToStringPtr_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UUIDPtrToStringPtr'
+type MockIUtil_UUIDPtrToStringPtr_Call struct {
+	*mock.Call
+}
+
+// UUIDPtrToStringPtr is a helper method to define mock.On call
+//   - u uuid.UUID
+func (_e *MockIUtil_Expecter) UUIDPtrToStringPtr(u interface{}) *MockIUtil_UUIDPtrToStringPtr_Call {
+	return &MockIUtil_UUIDPtrToStringPtr_Call{Call: _e.mock.On("UUIDPtrToStringPtr", u)}
+}
+
+func (_c *MockIUtil_UUIDPtrToStringPtr_Call) Run(run func(u uuid.UUID)) *MockIUtil_UUIDPtrToStringPtr_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 uuid.UUID
+		if args[0] != nil {
+			arg0 = args[0].(uuid.UUID)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockIUtil_UUIDPtrToStringPtr_Call) Return(s *string) *MockIUtil_UUIDPtrToStringPtr_Call {
+	_c.Call.Return(s)
+	return _c
+}
+
+func (_c *MockIUtil_UUIDPtrToStringPtr_Call) RunAndReturn(run func(u uuid.UUID) *string) *MockIUtil_UUIDPtrToStringPtr_Call {
 	_c.Call.Return(run)
 	return _c
 }
