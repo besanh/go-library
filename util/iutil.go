@@ -48,6 +48,11 @@ type IUtil interface {
 	UUIDPtrToStringPtr(u uuid.UUID) *string
 	StringPtrToUUIDPtr(s string) (*uuid.UUID, error)
 	ConvertStringToTimestampPb(t string) (*timestamppb.Timestamp, error)
+
+	// Generation
+	DecodeUnicode(text string) (string, error)
+	JoinWithSeparator(input []string, separator ...string) string
+	SplitWithSeparator(input string, separator ...string) []string
 }
 
 var LETTER_RUNES = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
