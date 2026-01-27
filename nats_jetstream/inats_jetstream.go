@@ -1,4 +1,4 @@
-package natsjetstream
+package nats_jetstream
 
 import (
 	"time"
