@@ -411,3 +411,49 @@ func (_c *MockIDB_QueryRow_Call) RunAndReturn(run func(ctx context.Context, quer
 	_c.Call.Return(run)
 	return _c
 }
+
+// Raw provides a mock function for the type MockIDB
+func (_mock *MockIDB) Raw() any {
+	ret := _mock.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Raw")
+	}
+
+	var r0 any
+	if returnFunc, ok := ret.Get(0).(func() any); ok {
+		r0 = returnFunc()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(any)
+		}
+	}
+	return r0
+}
+
+// MockIDB_Raw_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Raw'
+type MockIDB_Raw_Call struct {
+	*mock.Call
+}
+
+// Raw is a helper method to define mock.On call
+func (_e *MockIDB_Expecter) Raw() *MockIDB_Raw_Call {
+	return &MockIDB_Raw_Call{Call: _e.mock.On("Raw")}
+}
+
+func (_c *MockIDB_Raw_Call) Run(run func()) *MockIDB_Raw_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *MockIDB_Raw_Call) Return(v any) *MockIDB_Raw_Call {
+	_c.Call.Return(v)
+	return _c
+}
+
+func (_c *MockIDB_Raw_Call) RunAndReturn(run func() any) *MockIDB_Raw_Call {
+	_c.Call.Return(run)
+	return _c
+}

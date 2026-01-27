@@ -30,3 +30,7 @@ func (c *client) Ping(ctx context.Context) error {
 func (c *client) Close() {
 	c.pool.Close()
 }
+
+func (t *transaction) Raw() any {
+	return t.tx // pgx.Tx
+}
