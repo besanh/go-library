@@ -12,6 +12,7 @@ type IDB interface {
 	Begin(ctx context.Context) (Tx, error)
 	Ping(ctx context.Context) error
 	Close()
+	Raw() any
 }
 
 type Tx interface {
@@ -21,6 +22,7 @@ type Tx interface {
 
 	Commit(ctx context.Context) error
 	Rollback(ctx context.Context) error
+	Raw() any
 }
 
 type Rows interface {
@@ -32,4 +34,8 @@ type Rows interface {
 
 type Row interface {
 	Scan(dest ...any) error
+}
+
+func (c *client) Raw() any {
+	return c.pool // *pgxpool.Pool
 }
