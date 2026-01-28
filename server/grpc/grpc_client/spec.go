@@ -1,8 +1,8 @@
-package client
+package grpc_client
 
 import "google.golang.org/grpc"
 
-type GrpcConn interface {
+type IGrpcClient interface {
 	Dial() *grpc.ClientConn
 	Close()
 }
