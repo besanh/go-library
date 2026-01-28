@@ -1,0 +1,17 @@
+packages:
+  github.com/besanh/go-library/server/grpc/grpc_client:
+    interfaces:
+      IGrpcClient:
+        config:
+          # directory to output the mock file
+          dir: ""
+          # package name for the generated mock
+          pkgname: "grpc_client"
+          # name of the mock struct
+          structname: "MockIGrpcClient"
+          # filename for the generated mock
+          filename: "mock_igrpc_client.go"
+          # format the output using goimports
+          formatter: "goimports"
+          # overwrite existing files if they already exist
+          force-file-write: true
