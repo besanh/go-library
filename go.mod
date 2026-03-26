@@ -1,12 +1,14 @@
 module github.com/besanh/go-library
 
-go 1.25.5
+go 1.26.1
 
 require (
 	github.com/IBM/sarama v1.46.1
+	github.com/MicahParks/keyfunc/v2 v2.1.0
 	github.com/alicebob/miniredis/v2 v2.35.0
 	github.com/getsentry/sentry-go v0.35.3
 	github.com/gin-gonic/gin v1.10.1
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/uuid v1.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.23.2

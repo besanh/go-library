@@ -1,0 +1,10 @@
+packages:
+  github.com/besanh/go-library/oauth:
+    config:
+      dir: "."
+      inpackage: true
+    interfaces:
+      IOauth:
+        config:
+          structname: "MockIOauth"
+          filename: "mock_ioauth.go"
