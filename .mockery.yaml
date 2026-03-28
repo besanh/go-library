@@ -1,0 +1,163 @@
+resolve-type-alias: false
+disable-version-string: true
+issue-845-fix: true
+
+packages:
+  # SpiceDB
+  github.com/besanh/go-library/spicedb:
+    interfaces:
+      ISpiceDB:
+        config:
+          dir: "spicedb"
+          outpkg: "spicedb"
+          structname: "MockISpiceDB"
+          filename: "mock_ispicedb.go"
+
+  # OAuth2
+  github.com/besanh/go-library/oauth2:
+    interfaces:
+      IOAuth2:
+        config:
+          dir: "oauth2"
+          outpkg: "oauth2"
+          structname: "MockIOAuth2"
+          filename: "mock_ioauth2.go"
+
+  # OAuth
+  github.com/besanh/go-library/oauth:
+    interfaces:
+      IOauth:
+        config:
+          dir: "oauth"
+          outpkg: "oauth"
+          structname: "MockIOauth"
+          filename: "mock_ioauth.go"
+
+  # Kafka
+  github.com/besanh/go-library/kafka:
+    interfaces:
+      IProducer:
+        config:
+          dir: "kafka"
+          outpkg: "kafka"
+          structname: "MockIProducer"
+          filename: "mock_iproducer.go"
+      IConsumerGroup:
+        config:
+          dir: "kafka"
+          outpkg: "kafka"
+          structname: "MockIConsumerGroup"
+          filename: "mock_iconsumer_group.go"
+      IMessageHandler:
+        config:
+          dir: "kafka"
+          outpkg: "kafka"
+          structname: "MockIMessageHandler"
+          filename: "mock_imessage_handler.go"
+
+  # MongoDB
+  github.com/besanh/go-library/mongodb:
+    interfaces:
+      IMongoDB:
+        config:
+          dir: "mongodb"
+          outpkg: "mongodb"
+          structname: "MockIMongoDB"
+          filename: "mock_imongodb.go"
+
+  # MemCache
+  github.com/besanh/go-library/memcache:
+    interfaces:
+      IMemCache:
+        config:
+          dir: "memcache"
+          outpkg: "memcache"
+          structname: "MockIMemCache"
+          filename: "mock_imemcache.go"
+
+  # RedisMQ
+  github.com/besanh/go-library/redismq:
+    interfaces:
+      IRedisMQ:
+        config:
+          dir: "redismq"
+          outpkg: "redismq"
+          structname: "MockIRedisMQ"
+          filename: "mock_iredismq.go"
+
+  # NATS JetStream
+  github.com/besanh/go-library/nats_jetstream:
+    interfaces:
+      INatsJetstream:
+        config:
+          dir: "nats_jetstream"
+          outpkg: "nats_jetstream"
+          structname: "MockINatsJetstream"
+          filename: "mock_inats_jetstream.go"
+
+  # Metric
+  github.com/besanh/go-library/metric:
+    interfaces:
+      IMetric:
+        config:
+          dir: "metric"
+          outpkg: "metric"
+          structname: "MockIMetric"
+          filename: "mock_imetric.go"
+      IStatusWriter:
+        config:
+          dir: "metric"
+          outpkg: "metric"
+          structname: "MockIStatusWriter"
+          filename: "mock_istatus_writer.go"
+
+  # Logger
+  github.com/besanh/go-library/logger:
+    interfaces:
+      ILogger:
+        config:
+          dir: "logger"
+          outpkg: "logger"
+          structname: "MockILogger"
+          filename: "mock_ilogger.go"
+
+  # Util
+  github.com/besanh/go-library/util:
+    interfaces:
+      IUtil:
+        config:
+          dir: "util"
+          outpkg: "util"
+          structname: "MockIUtil"
+          filename: "mock_iutil.go"
+
+  # PostgreSQL
+  github.com/besanh/go-library/sql/postgre_sql:
+    interfaces:
+      IDB:
+        config:
+          dir: "sql/postgre_sql"
+          outpkg: "postgre_sql"
+          structname: "MockIDB"
+          filename: "mock_idb.go"
+          inpackage: true
+
+  # gRPC Client
+  github.com/besanh/go-library/server/grpc/grpc_client:
+    interfaces:
+      IGrpcClient:
+        config:
+          dir: "server/grpc/grpc_client"
+          outpkg: "grpc_client"
+          structname: "MockIGrpcClient"
+          filename: "mock_igrpc_client.go"
+
+  # HTTP Server
+  github.com/besanh/go-library/server/http:
+    interfaces:
+      IHTTP:
+        config:
+          dir: "server/http"
+          outpkg: "http"
+          structname: "MockIHTTP"
+          filename: "mock_ihttp.go"
