@@ -17,7 +17,7 @@ type clientConfig struct {
 
 // SpiceClient is a wrapper around the authzed.Client.
 type SpiceClient struct {
-	client *authzed.Client
+	Client *authzed.Client
 }
 
 type Option func(*clientConfig)
@@ -49,5 +49,5 @@ func NewClient(endpoint, token string, opts ...Option) (*SpiceClient, error) {
 		return nil, fmt.Errorf("failed to connect to spicedb: %w", err)
 	}
 
-	return &SpiceClient{client: client}, nil
+	return &SpiceClient{Client: client}, nil
 }
