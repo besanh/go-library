@@ -5,13 +5,17 @@ import (
 
 	"github.com/authzed/grpcutil"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // WithInsecure configures the client to use an insecure bearer token.
 // This is primarily used for local development environments.
 func WithInsecure() Option {
 	return func(c *clientConfig) {
-		c.dialOpts = append(c.dialOpts, grpcutil.WithInsecureBearerToken(c.preSharedKey))
+		c.dialOpts = append(c.dialOpts,
+			grpc.WithTransportCredentials(insecure.NewCredentials()),
+			grpcutil.WithInsecureBearerToken(c.preSharedKey),
+		)
 	}
 }
 
@@ -19,7 +23,7 @@ func WithInsecure() Option {
 // This is recommended for production environments.
 func WithSystemTLS() Option {
 	return func(c *clientConfig) {
-		c.dialOpts = append(c.dialOpts, grpcutil.WithInsecureBearerToken(c.preSharedKey))
+		c.dialOpts = append(c.dialOpts, grpcutil.WithBearerToken(c.preSharedKey))
 		otps, err := grpcutil.WithSystemCerts(grpcutil.VerifyCA)
 		if err != nil {
 			panic(err)
