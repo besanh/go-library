@@ -16,7 +16,7 @@ func (s *SpiceClient) WriteSchema(ctx context.Context, schemaText string) error 
 		Schema: schemaText,
 	}
 
-	_, err := s.client.SchemaServiceClient.WriteSchema(ctx, request)
+	_, err := s.Client.SchemaServiceClient.WriteSchema(ctx, request)
 	if err != nil {
 		return fmt.Errorf("failed to write schema: %w", err)
 	}
